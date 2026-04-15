@@ -1,0 +1,21 @@
+# =============================================================================
+# OI Monitor — Python dependencies
+# Install: pip install -r requirements.txt
+# =============================================================================
+
+# ── Core (always required) ────────────────────────────────────────────────────
+python-dotenv>=1.0.0
+requests>=2.31.0
+
+# ── Yahoo Finance — Primary data source (no API key needed) ──────────────────
+# yfinance>=0.2.38
+# pandas>=2.0.0
+
+# ── Angel One SmartAPI — uncomment if DATA_SOURCE=ANGEL ──────────────────────
+ smartapi-python>=1.3.4
+ pyotp>=2.9.0
+ websocket-client>=1.7.0
+ logzero>=1.7.0          # undeclared dep of smartapi-python — must be installed
+
+# ── Dhan API — uncomment if DATA_SOURCE=DHAN ─────────────────────────────────
+# dhanhq>=1.3.1

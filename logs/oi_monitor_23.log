@@ -1,0 +1,948 @@
+2026-02-23 10:42:16 | INFO     | main | ============================================================
+2026-02-23 10:42:16 | INFO     | main |   NSE / BSE  OI  SPIKE  MONITOR  (Index + F&O Stocks)
+2026-02-23 10:42:16 | INFO     | main | ============================================================
+2026-02-23 10:42:16 | INFO     | main | Data source   : ANGEL
+2026-02-23 10:42:16 | INFO     | main | Poll interval : 60s
+2026-02-23 10:42:16 | INFO     | main | CSV logging   : ON
+2026-02-23 10:42:16 | INFO     | main | Market hours  : enforced
+2026-02-23 10:42:16 | INFO     | main | Indices       : NIFTY, SENSEX, BANKNIFTY, MIDCAPSELECT
+2026-02-23 10:42:16 | INFO     | main | F&O Stocks    : 34 configured
+2026-02-23 10:42:16 | INFO     | main | Starting data source (ANGEL) …
+2026-02-23 10:42:17 | INFO     | angel_source | Angel One authenticated (attempt 1)
+2026-02-23 10:42:17 | INFO     | angel_source | Downloading Angel One instrument master …
+2026-02-23 10:42:29 | INFO     | angel_source | Instrument master: 211413 records
+2026-02-23 10:42:29 | INFO     | angel_source | Token map: 37/38 symbols resolved
+2026-02-23 10:42:29 | WARNING  | angel_source | Tokens NOT resolved for: ['TATAMOTORS']
+  These will rely on spot-from-option-chain (normal after first poll).
+  To diagnose, run:  python utils/token_finder.py
+2026-02-23 10:42:29 | INFO     | angel_source | Angel WS thread started
+2026-02-23 10:42:29 | INFO     | angel_source | AngelDataSource ready
+2026-02-23 10:42:29 | INFO     | main | Data source ready
+2026-02-23 10:42:29 | INFO     | main | Stock OI Monitor thread started
+2026-02-23 10:42:29 | INFO     | monitor | Stock OI Monitor starting …
+2026-02-23 10:42:29 | INFO     | monitor | Index OI Monitor starting …
+2026-02-23 10:42:29 | INFO     | monitor |   HDFCBANK             expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   NIFTY                expiry=24FEB2026    threshold=500%
+2026-02-23 10:42:29 | INFO     | monitor |   ICICIBANK            expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   SENSEX               expiry=26FEB2026    threshold=500%
+2026-02-23 10:42:29 | INFO     | monitor |   SBIN                 expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   BANKNIFTY            expiry=26FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   KOTAKBANK            expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   MIDCAPSELECT         expiry=23FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   AXISBANK             expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   BAJFINANCE           expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   BAJAJFINSV           expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   INDUSINDBK           expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   TCS                  expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   INFY                 expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   HCLTECH              expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   WIPRO                expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   TECHM                expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   RELIANCE             expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   ONGC                 expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   BPCL                 expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   NTPC                 expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   COALINDIA            expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   MARUTI               expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   TATAMOTORS           expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   M&M                  expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   TATASTEEL            expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   HINDALCO             expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   JSWSTEEL             expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   SUNPHARMA            expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   DRREDDY              expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   CIPLA                expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   LT                   expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   ADANIENT             expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   BHARTIARTL           expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   ITC                  expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   TITAN                expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   ASIANPAINT           expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:29 | INFO     | monitor |   NESTLEIND            expiry=24FEB2026    threshold=100%
+2026-02-23 10:42:30 | INFO     | angel_source | Angel WS connected
+2026-02-23 10:42:31 | WARNING  | monitor | HDFCBANK: invalid spot (0.00) — skipping
+2026-02-23 10:42:31 | WARNING  | monitor | NIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:42:31 | WARNING  | monitor | ICICIBANK: invalid spot (0.00) — skipping
+2026-02-23 10:42:31 | WARNING  | monitor | SENSEX: invalid spot (0.00) — skipping
+2026-02-23 10:42:31 | WARNING  | monitor | SBIN: invalid spot (0.00) — skipping
+2026-02-23 10:42:31 | WARNING  | monitor | BANKNIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:42:32 | WARNING  | monitor | MIDCAPSELECT: invalid spot (0.00) — skipping
+2026-02-23 10:42:32 | WARNING  | monitor | KOTAKBANK: invalid spot (0.00) — skipping
+2026-02-23 10:42:32 | WARNING  | monitor | AXISBANK: invalid spot (0.00) — skipping
+2026-02-23 10:42:32 | WARNING  | monitor | BAJFINANCE: invalid spot (0.00) — skipping
+2026-02-23 10:42:33 | WARNING  | monitor | BAJAJFINSV: invalid spot (0.00) — skipping
+2026-02-23 10:42:33 | WARNING  | monitor | INDUSINDBK: invalid spot (0.00) — skipping
+2026-02-23 10:42:33 | WARNING  | monitor | TCS: invalid spot (0.00) — skipping
+2026-02-23 10:42:33 | WARNING  | monitor | INFY: invalid spot (0.00) — skipping
+2026-02-23 10:42:34 | WARNING  | monitor | HCLTECH: invalid spot (0.00) — skipping
+2026-02-23 10:42:34 | WARNING  | monitor | WIPRO: invalid spot (0.00) — skipping
+2026-02-23 10:42:34 | WARNING  | monitor | TECHM: invalid spot (0.00) — skipping
+2026-02-23 10:42:35 | WARNING  | monitor | RELIANCE: invalid spot (0.00) — skipping
+2026-02-23 10:42:35 | WARNING  | monitor | ONGC: invalid spot (0.00) — skipping
+2026-02-23 10:42:36 | WARNING  | monitor | BPCL: invalid spot (0.00) — skipping
+2026-02-23 10:42:36 | WARNING  | monitor | NTPC: invalid spot (0.00) — skipping
+2026-02-23 10:42:36 | WARNING  | monitor | COALINDIA: invalid spot (0.00) — skipping
+2026-02-23 10:42:37 | WARNING  | monitor | MARUTI: invalid spot (0.00) — skipping
+2026-02-23 10:42:37 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-23 10:42:37 | WARNING  | monitor | M&M: invalid spot (0.00) — skipping
+2026-02-23 10:42:37 | WARNING  | monitor | TATASTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:42:38 | WARNING  | monitor | HINDALCO: invalid spot (0.00) — skipping
+2026-02-23 10:42:38 | WARNING  | monitor | JSWSTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:42:38 | WARNING  | monitor | SUNPHARMA: invalid spot (0.00) — skipping
+2026-02-23 10:42:39 | WARNING  | monitor | DRREDDY: invalid spot (0.00) — skipping
+2026-02-23 10:42:39 | WARNING  | monitor | CIPLA: invalid spot (0.00) — skipping
+2026-02-23 10:42:39 | WARNING  | monitor | LT: invalid spot (0.00) — skipping
+2026-02-23 10:42:39 | WARNING  | monitor | ADANIENT: invalid spot (0.00) — skipping
+2026-02-23 10:42:40 | WARNING  | monitor | BHARTIARTL: invalid spot (0.00) — skipping
+2026-02-23 10:42:40 | WARNING  | monitor | ITC: invalid spot (0.00) — skipping
+2026-02-23 10:42:40 | WARNING  | monitor | TITAN: invalid spot (0.00) — skipping
+2026-02-23 10:42:41 | WARNING  | monitor | ASIANPAINT: invalid spot (0.00) — skipping
+2026-02-23 10:42:41 | WARNING  | monitor | NESTLEIND: invalid spot (0.00) — skipping
+2026-02-23 10:43:32 | WARNING  | monitor | NIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:43:32 | WARNING  | monitor | SENSEX: invalid spot (0.00) — skipping
+2026-02-23 10:43:33 | WARNING  | monitor | BANKNIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:43:33 | WARNING  | monitor | MIDCAPSELECT: invalid spot (0.00) — skipping
+2026-02-23 10:43:41 | WARNING  | monitor | HDFCBANK: invalid spot (0.00) — skipping
+2026-02-23 10:43:42 | WARNING  | monitor | ICICIBANK: invalid spot (0.00) — skipping
+2026-02-23 10:43:42 | WARNING  | monitor | SBIN: invalid spot (0.00) — skipping
+2026-02-23 10:43:42 | WARNING  | monitor | KOTAKBANK: invalid spot (0.00) — skipping
+2026-02-23 10:43:43 | WARNING  | monitor | AXISBANK: invalid spot (0.00) — skipping
+2026-02-23 10:43:43 | WARNING  | monitor | BAJFINANCE: invalid spot (0.00) — skipping
+2026-02-23 10:43:43 | WARNING  | monitor | BAJAJFINSV: invalid spot (0.00) — skipping
+2026-02-23 10:43:44 | WARNING  | monitor | INDUSINDBK: invalid spot (0.00) — skipping
+2026-02-23 10:43:44 | WARNING  | monitor | TCS: invalid spot (0.00) — skipping
+2026-02-23 10:43:44 | WARNING  | monitor | INFY: invalid spot (0.00) — skipping
+2026-02-23 10:43:45 | WARNING  | monitor | HCLTECH: invalid spot (0.00) — skipping
+2026-02-23 10:43:46 | WARNING  | monitor | WIPRO: invalid spot (0.00) — skipping
+2026-02-23 10:43:46 | WARNING  | monitor | TECHM: invalid spot (0.00) — skipping
+2026-02-23 10:43:47 | WARNING  | monitor | RELIANCE: invalid spot (0.00) — skipping
+2026-02-23 10:43:47 | WARNING  | monitor | ONGC: invalid spot (0.00) — skipping
+2026-02-23 10:43:47 | WARNING  | monitor | BPCL: invalid spot (0.00) — skipping
+2026-02-23 10:43:49 | WARNING  | monitor | NTPC: invalid spot (0.00) — skipping
+2026-02-23 10:43:49 | WARNING  | monitor | COALINDIA: invalid spot (0.00) — skipping
+2026-02-23 10:43:50 | WARNING  | monitor | MARUTI: invalid spot (0.00) — skipping
+2026-02-23 10:43:50 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-23 10:43:50 | WARNING  | monitor | M&M: invalid spot (0.00) — skipping
+2026-02-23 10:43:50 | WARNING  | monitor | TATASTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:43:51 | WARNING  | monitor | HINDALCO: invalid spot (0.00) — skipping
+2026-02-23 10:43:51 | WARNING  | monitor | JSWSTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:43:51 | WARNING  | monitor | SUNPHARMA: invalid spot (0.00) — skipping
+2026-02-23 10:43:52 | WARNING  | monitor | DRREDDY: invalid spot (0.00) — skipping
+2026-02-23 10:43:52 | WARNING  | monitor | CIPLA: invalid spot (0.00) — skipping
+2026-02-23 10:43:53 | WARNING  | monitor | LT: invalid spot (0.00) — skipping
+2026-02-23 10:43:53 | WARNING  | monitor | ADANIENT: invalid spot (0.00) — skipping
+2026-02-23 10:43:53 | WARNING  | monitor | BHARTIARTL: invalid spot (0.00) — skipping
+2026-02-23 10:43:53 | WARNING  | monitor | ITC: invalid spot (0.00) — skipping
+2026-02-23 10:43:54 | WARNING  | monitor | TITAN: invalid spot (0.00) — skipping
+2026-02-23 10:43:54 | WARNING  | monitor | ASIANPAINT: invalid spot (0.00) — skipping
+2026-02-23 10:43:54 | WARNING  | monitor | NESTLEIND: invalid spot (0.00) — skipping
+2026-02-23 10:44:33 | WARNING  | monitor | NIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:44:34 | WARNING  | monitor | SENSEX: invalid spot (0.00) — skipping
+2026-02-23 10:44:34 | WARNING  | monitor | BANKNIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:44:34 | WARNING  | monitor | MIDCAPSELECT: invalid spot (0.00) — skipping
+2026-02-23 10:44:55 | WARNING  | monitor | HDFCBANK: invalid spot (0.00) — skipping
+2026-02-23 10:44:55 | WARNING  | monitor | ICICIBANK: invalid spot (0.00) — skipping
+2026-02-23 10:44:55 | WARNING  | monitor | SBIN: invalid spot (0.00) — skipping
+2026-02-23 10:44:56 | WARNING  | monitor | KOTAKBANK: invalid spot (0.00) — skipping
+2026-02-23 10:44:56 | WARNING  | monitor | AXISBANK: invalid spot (0.00) — skipping
+2026-02-23 10:44:56 | WARNING  | monitor | BAJFINANCE: invalid spot (0.00) — skipping
+2026-02-23 10:44:57 | WARNING  | monitor | BAJAJFINSV: invalid spot (0.00) — skipping
+2026-02-23 10:44:57 | WARNING  | monitor | INDUSINDBK: invalid spot (0.00) — skipping
+2026-02-23 10:44:57 | WARNING  | monitor | TCS: invalid spot (0.00) — skipping
+2026-02-23 10:44:58 | WARNING  | monitor | INFY: invalid spot (0.00) — skipping
+2026-02-23 10:44:58 | WARNING  | monitor | HCLTECH: invalid spot (0.00) — skipping
+2026-02-23 10:44:58 | WARNING  | monitor | WIPRO: invalid spot (0.00) — skipping
+2026-02-23 10:44:59 | WARNING  | monitor | TECHM: invalid spot (0.00) — skipping
+2026-02-23 10:44:59 | WARNING  | monitor | RELIANCE: invalid spot (0.00) — skipping
+2026-02-23 10:44:59 | WARNING  | monitor | ONGC: invalid spot (0.00) — skipping
+2026-02-23 10:45:00 | WARNING  | monitor | BPCL: invalid spot (0.00) — skipping
+2026-02-23 10:45:00 | WARNING  | monitor | NTPC: invalid spot (0.00) — skipping
+2026-02-23 10:45:01 | WARNING  | monitor | COALINDIA: invalid spot (0.00) — skipping
+2026-02-23 10:45:01 | WARNING  | monitor | MARUTI: invalid spot (0.00) — skipping
+2026-02-23 10:45:01 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-23 10:45:01 | WARNING  | monitor | M&M: invalid spot (0.00) — skipping
+2026-02-23 10:45:02 | WARNING  | monitor | TATASTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:45:02 | WARNING  | monitor | HINDALCO: invalid spot (0.00) — skipping
+2026-02-23 10:45:02 | WARNING  | monitor | JSWSTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:45:03 | WARNING  | monitor | SUNPHARMA: invalid spot (0.00) — skipping
+2026-02-23 10:45:03 | WARNING  | monitor | DRREDDY: invalid spot (0.00) — skipping
+2026-02-23 10:45:03 | WARNING  | monitor | CIPLA: invalid spot (0.00) — skipping
+2026-02-23 10:45:03 | WARNING  | monitor | LT: invalid spot (0.00) — skipping
+2026-02-23 10:45:04 | WARNING  | monitor | ADANIENT: invalid spot (0.00) — skipping
+2026-02-23 10:45:04 | WARNING  | monitor | BHARTIARTL: invalid spot (0.00) — skipping
+2026-02-23 10:45:04 | WARNING  | monitor | ITC: invalid spot (0.00) — skipping
+2026-02-23 10:45:05 | WARNING  | monitor | TITAN: invalid spot (0.00) — skipping
+2026-02-23 10:45:05 | WARNING  | monitor | ASIANPAINT: invalid spot (0.00) — skipping
+2026-02-23 10:45:05 | WARNING  | monitor | NESTLEIND: invalid spot (0.00) — skipping
+2026-02-23 10:45:35 | WARNING  | monitor | NIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:45:35 | WARNING  | monitor | SENSEX: invalid spot (0.00) — skipping
+2026-02-23 10:45:35 | WARNING  | monitor | BANKNIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:45:36 | WARNING  | monitor | MIDCAPSELECT: invalid spot (0.00) — skipping
+2026-02-23 10:46:06 | WARNING  | monitor | HDFCBANK: invalid spot (0.00) — skipping
+2026-02-23 10:46:06 | WARNING  | monitor | ICICIBANK: invalid spot (0.00) — skipping
+2026-02-23 10:46:06 | WARNING  | monitor | SBIN: invalid spot (0.00) — skipping
+2026-02-23 10:46:07 | WARNING  | monitor | KOTAKBANK: invalid spot (0.00) — skipping
+2026-02-23 10:46:07 | WARNING  | monitor | AXISBANK: invalid spot (0.00) — skipping
+2026-02-23 10:46:07 | WARNING  | monitor | BAJFINANCE: invalid spot (0.00) — skipping
+2026-02-23 10:46:08 | WARNING  | monitor | BAJAJFINSV: invalid spot (0.00) — skipping
+2026-02-23 10:46:08 | WARNING  | monitor | INDUSINDBK: invalid spot (0.00) — skipping
+2026-02-23 10:46:08 | WARNING  | monitor | TCS: invalid spot (0.00) — skipping
+2026-02-23 10:46:09 | WARNING  | monitor | INFY: invalid spot (0.00) — skipping
+2026-02-23 10:46:09 | WARNING  | monitor | HCLTECH: invalid spot (0.00) — skipping
+2026-02-23 10:46:09 | WARNING  | monitor | WIPRO: invalid spot (0.00) — skipping
+2026-02-23 10:46:09 | WARNING  | monitor | TECHM: invalid spot (0.00) — skipping
+2026-02-23 10:46:10 | WARNING  | monitor | RELIANCE: invalid spot (0.00) — skipping
+2026-02-23 10:46:10 | WARNING  | monitor | ONGC: invalid spot (0.00) — skipping
+2026-02-23 10:46:10 | WARNING  | monitor | BPCL: invalid spot (0.00) — skipping
+2026-02-23 10:46:11 | WARNING  | monitor | NTPC: invalid spot (0.00) — skipping
+2026-02-23 10:46:11 | WARNING  | monitor | COALINDIA: invalid spot (0.00) — skipping
+2026-02-23 10:46:12 | WARNING  | monitor | MARUTI: invalid spot (0.00) — skipping
+2026-02-23 10:46:12 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-23 10:46:12 | WARNING  | monitor | M&M: invalid spot (0.00) — skipping
+2026-02-23 10:46:12 | WARNING  | monitor | TATASTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:46:13 | WARNING  | monitor | HINDALCO: invalid spot (0.00) — skipping
+2026-02-23 10:46:13 | WARNING  | monitor | JSWSTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:46:13 | WARNING  | monitor | SUNPHARMA: invalid spot (0.00) — skipping
+2026-02-23 10:46:14 | WARNING  | monitor | DRREDDY: invalid spot (0.00) — skipping
+2026-02-23 10:46:14 | WARNING  | monitor | CIPLA: invalid spot (0.00) — skipping
+2026-02-23 10:46:15 | WARNING  | monitor | LT: invalid spot (0.00) — skipping
+2026-02-23 10:46:15 | WARNING  | monitor | ADANIENT: invalid spot (0.00) — skipping
+2026-02-23 10:46:16 | WARNING  | monitor | BHARTIARTL: invalid spot (0.00) — skipping
+2026-02-23 10:46:16 | WARNING  | monitor | ITC: invalid spot (0.00) — skipping
+2026-02-23 10:46:16 | WARNING  | monitor | TITAN: invalid spot (0.00) — skipping
+2026-02-23 10:46:17 | WARNING  | monitor | ASIANPAINT: invalid spot (0.00) — skipping
+2026-02-23 10:46:17 | WARNING  | monitor | NESTLEIND: invalid spot (0.00) — skipping
+2026-02-23 10:46:36 | WARNING  | monitor | NIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:46:36 | WARNING  | monitor | SENSEX: invalid spot (0.00) — skipping
+2026-02-23 10:46:37 | WARNING  | monitor | BANKNIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:46:37 | WARNING  | monitor | MIDCAPSELECT: invalid spot (0.00) — skipping
+2026-02-23 10:47:17 | WARNING  | monitor | HDFCBANK: invalid spot (0.00) — skipping
+2026-02-23 10:47:17 | WARNING  | monitor | ICICIBANK: invalid spot (0.00) — skipping
+2026-02-23 10:47:18 | WARNING  | monitor | SBIN: invalid spot (0.00) — skipping
+2026-02-23 10:47:18 | WARNING  | monitor | KOTAKBANK: invalid spot (0.00) — skipping
+2026-02-23 10:47:18 | WARNING  | monitor | AXISBANK: invalid spot (0.00) — skipping
+2026-02-23 10:47:19 | WARNING  | monitor | BAJFINANCE: invalid spot (0.00) — skipping
+2026-02-23 10:47:19 | WARNING  | monitor | BAJAJFINSV: invalid spot (0.00) — skipping
+2026-02-23 10:47:19 | WARNING  | monitor | INDUSINDBK: invalid spot (0.00) — skipping
+2026-02-23 10:47:20 | WARNING  | monitor | TCS: invalid spot (0.00) — skipping
+2026-02-23 10:47:20 | WARNING  | monitor | INFY: invalid spot (0.00) — skipping
+2026-02-23 10:47:21 | WARNING  | monitor | HCLTECH: invalid spot (0.00) — skipping
+2026-02-23 10:47:22 | WARNING  | monitor | WIPRO: invalid spot (0.00) — skipping
+2026-02-23 10:47:22 | WARNING  | monitor | TECHM: invalid spot (0.00) — skipping
+2026-02-23 10:47:22 | WARNING  | monitor | RELIANCE: invalid spot (0.00) — skipping
+2026-02-23 10:47:23 | WARNING  | monitor | ONGC: invalid spot (0.00) — skipping
+2026-02-23 10:47:23 | WARNING  | monitor | BPCL: invalid spot (0.00) — skipping
+2026-02-23 10:47:23 | WARNING  | monitor | NTPC: invalid spot (0.00) — skipping
+2026-02-23 10:47:24 | WARNING  | monitor | COALINDIA: invalid spot (0.00) — skipping
+2026-02-23 10:47:24 | WARNING  | monitor | MARUTI: invalid spot (0.00) — skipping
+2026-02-23 10:47:24 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-23 10:47:24 | WARNING  | monitor | M&M: invalid spot (0.00) — skipping
+2026-02-23 10:47:25 | WARNING  | monitor | TATASTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:47:25 | WARNING  | monitor | HINDALCO: invalid spot (0.00) — skipping
+2026-02-23 10:47:25 | WARNING  | monitor | JSWSTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:47:26 | WARNING  | monitor | SUNPHARMA: invalid spot (0.00) — skipping
+2026-02-23 10:47:26 | WARNING  | monitor | DRREDDY: invalid spot (0.00) — skipping
+2026-02-23 10:47:26 | WARNING  | monitor | CIPLA: invalid spot (0.00) — skipping
+2026-02-23 10:47:27 | WARNING  | monitor | LT: invalid spot (0.00) — skipping
+2026-02-23 10:47:27 | WARNING  | monitor | ADANIENT: invalid spot (0.00) — skipping
+2026-02-23 10:47:27 | WARNING  | monitor | BHARTIARTL: invalid spot (0.00) — skipping
+2026-02-23 10:47:28 | WARNING  | monitor | ITC: invalid spot (0.00) — skipping
+2026-02-23 10:47:28 | WARNING  | monitor | TITAN: invalid spot (0.00) — skipping
+2026-02-23 10:47:28 | WARNING  | monitor | ASIANPAINT: invalid spot (0.00) — skipping
+2026-02-23 10:47:29 | WARNING  | monitor | NESTLEIND: invalid spot (0.00) — skipping
+2026-02-23 10:47:37 | WARNING  | monitor | NIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:47:38 | WARNING  | monitor | SENSEX: invalid spot (0.00) — skipping
+2026-02-23 10:47:38 | WARNING  | monitor | BANKNIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:47:38 | WARNING  | monitor | MIDCAPSELECT: invalid spot (0.00) — skipping
+2026-02-23 10:48:29 | WARNING  | monitor | HDFCBANK: invalid spot (0.00) — skipping
+2026-02-23 10:48:29 | WARNING  | monitor | ICICIBANK: invalid spot (0.00) — skipping
+2026-02-23 10:48:30 | WARNING  | monitor | SBIN: invalid spot (0.00) — skipping
+2026-02-23 10:48:30 | WARNING  | monitor | KOTAKBANK: invalid spot (0.00) — skipping
+2026-02-23 10:48:30 | WARNING  | monitor | AXISBANK: invalid spot (0.00) — skipping
+2026-02-23 10:48:31 | WARNING  | monitor | BAJFINANCE: invalid spot (0.00) — skipping
+2026-02-23 10:48:31 | WARNING  | monitor | BAJAJFINSV: invalid spot (0.00) — skipping
+2026-02-23 10:48:31 | WARNING  | monitor | INDUSINDBK: invalid spot (0.00) — skipping
+2026-02-23 10:48:32 | WARNING  | monitor | TCS: invalid spot (0.00) — skipping
+2026-02-23 10:48:32 | WARNING  | monitor | INFY: invalid spot (0.00) — skipping
+2026-02-23 10:48:32 | WARNING  | monitor | HCLTECH: invalid spot (0.00) — skipping
+2026-02-23 10:48:33 | WARNING  | monitor | WIPRO: invalid spot (0.00) — skipping
+2026-02-23 10:48:33 | WARNING  | monitor | TECHM: invalid spot (0.00) — skipping
+2026-02-23 10:48:33 | WARNING  | monitor | RELIANCE: invalid spot (0.00) — skipping
+2026-02-23 10:48:34 | WARNING  | monitor | ONGC: invalid spot (0.00) — skipping
+2026-02-23 10:48:34 | WARNING  | monitor | BPCL: invalid spot (0.00) — skipping
+2026-02-23 10:48:34 | WARNING  | monitor | NTPC: invalid spot (0.00) — skipping
+2026-02-23 10:48:35 | WARNING  | monitor | COALINDIA: invalid spot (0.00) — skipping
+2026-02-23 10:48:35 | WARNING  | monitor | MARUTI: invalid spot (0.00) — skipping
+2026-02-23 10:48:35 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-23 10:48:35 | WARNING  | monitor | M&M: invalid spot (0.00) — skipping
+2026-02-23 10:48:36 | WARNING  | monitor | TATASTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:48:37 | WARNING  | monitor | HINDALCO: invalid spot (0.00) — skipping
+2026-02-23 10:48:37 | WARNING  | monitor | JSWSTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:48:37 | WARNING  | monitor | SUNPHARMA: invalid spot (0.00) — skipping
+2026-02-23 10:48:38 | WARNING  | monitor | DRREDDY: invalid spot (0.00) — skipping
+2026-02-23 10:48:38 | WARNING  | monitor | CIPLA: invalid spot (0.00) — skipping
+2026-02-23 10:48:39 | WARNING  | monitor | NIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:48:39 | WARNING  | monitor | SENSEX: invalid spot (0.00) — skipping
+2026-02-23 10:48:39 | WARNING  | monitor | BANKNIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:48:40 | WARNING  | monitor | MIDCAPSELECT: invalid spot (0.00) — skipping
+2026-02-23 10:48:48 | WARNING  | monitor | LT: invalid spot (0.00) — skipping
+2026-02-23 10:48:48 | WARNING  | monitor | ADANIENT: invalid spot (0.00) — skipping
+2026-02-23 10:48:49 | WARNING  | monitor | BHARTIARTL: invalid spot (0.00) — skipping
+2026-02-23 10:48:49 | WARNING  | monitor | ITC: invalid spot (0.00) — skipping
+2026-02-23 10:48:49 | WARNING  | monitor | TITAN: invalid spot (0.00) — skipping
+2026-02-23 10:48:50 | WARNING  | monitor | ASIANPAINT: invalid spot (0.00) — skipping
+2026-02-23 10:48:50 | WARNING  | monitor | NESTLEIND: invalid spot (0.00) — skipping
+2026-02-23 10:49:40 | WARNING  | monitor | NIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:49:40 | WARNING  | monitor | SENSEX: invalid spot (0.00) — skipping
+2026-02-23 10:49:41 | WARNING  | monitor | BANKNIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:49:41 | WARNING  | monitor | MIDCAPSELECT: invalid spot (0.00) — skipping
+2026-02-23 10:49:50 | WARNING  | monitor | HDFCBANK: invalid spot (0.00) — skipping
+2026-02-23 10:49:51 | WARNING  | monitor | ICICIBANK: invalid spot (0.00) — skipping
+2026-02-23 10:49:51 | WARNING  | monitor | SBIN: invalid spot (0.00) — skipping
+2026-02-23 10:49:51 | WARNING  | monitor | KOTAKBANK: invalid spot (0.00) — skipping
+2026-02-23 10:49:52 | WARNING  | monitor | AXISBANK: invalid spot (0.00) — skipping
+2026-02-23 10:49:52 | WARNING  | monitor | BAJFINANCE: invalid spot (0.00) — skipping
+2026-02-23 10:49:52 | WARNING  | monitor | BAJAJFINSV: invalid spot (0.00) — skipping
+2026-02-23 10:49:53 | WARNING  | monitor | INDUSINDBK: invalid spot (0.00) — skipping
+2026-02-23 10:49:53 | WARNING  | monitor | TCS: invalid spot (0.00) — skipping
+2026-02-23 10:49:53 | WARNING  | monitor | INFY: invalid spot (0.00) — skipping
+2026-02-23 10:49:54 | WARNING  | monitor | HCLTECH: invalid spot (0.00) — skipping
+2026-02-23 10:49:54 | WARNING  | monitor | WIPRO: invalid spot (0.00) — skipping
+2026-02-23 10:49:55 | WARNING  | monitor | TECHM: invalid spot (0.00) — skipping
+2026-02-23 10:49:55 | WARNING  | monitor | RELIANCE: invalid spot (0.00) — skipping
+2026-02-23 10:49:55 | WARNING  | monitor | ONGC: invalid spot (0.00) — skipping
+2026-02-23 10:49:56 | WARNING  | monitor | BPCL: invalid spot (0.00) — skipping
+2026-02-23 10:49:56 | WARNING  | monitor | NTPC: invalid spot (0.00) — skipping
+2026-02-23 10:49:56 | WARNING  | monitor | COALINDIA: invalid spot (0.00) — skipping
+2026-02-23 10:49:57 | WARNING  | monitor | MARUTI: invalid spot (0.00) — skipping
+2026-02-23 10:49:57 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-23 10:49:57 | WARNING  | monitor | M&M: invalid spot (0.00) — skipping
+2026-02-23 10:49:57 | WARNING  | monitor | TATASTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:49:58 | WARNING  | monitor | HINDALCO: invalid spot (0.00) — skipping
+2026-02-23 10:49:58 | WARNING  | monitor | JSWSTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:49:58 | WARNING  | monitor | SUNPHARMA: invalid spot (0.00) — skipping
+2026-02-23 10:49:59 | WARNING  | monitor | DRREDDY: invalid spot (0.00) — skipping
+2026-02-23 10:49:59 | WARNING  | monitor | CIPLA: invalid spot (0.00) — skipping
+2026-02-23 10:49:59 | WARNING  | monitor | LT: invalid spot (0.00) — skipping
+2026-02-23 10:50:00 | WARNING  | monitor | ADANIENT: invalid spot (0.00) — skipping
+2026-02-23 10:50:00 | WARNING  | monitor | BHARTIARTL: invalid spot (0.00) — skipping
+2026-02-23 10:50:01 | WARNING  | monitor | ITC: invalid spot (0.00) — skipping
+2026-02-23 10:50:01 | WARNING  | monitor | TITAN: invalid spot (0.00) — skipping
+2026-02-23 10:50:01 | WARNING  | monitor | ASIANPAINT: invalid spot (0.00) — skipping
+2026-02-23 10:50:02 | WARNING  | monitor | NESTLEIND: invalid spot (0.00) — skipping
+2026-02-23 10:50:42 | WARNING  | monitor | NIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:50:42 | WARNING  | monitor | SENSEX: invalid spot (0.00) — skipping
+2026-02-23 10:50:42 | WARNING  | monitor | BANKNIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:50:43 | WARNING  | monitor | MIDCAPSELECT: invalid spot (0.00) — skipping
+2026-02-23 10:51:02 | WARNING  | monitor | HDFCBANK: invalid spot (0.00) — skipping
+2026-02-23 10:51:02 | WARNING  | monitor | ICICIBANK: invalid spot (0.00) — skipping
+2026-02-23 10:51:03 | WARNING  | monitor | SBIN: invalid spot (0.00) — skipping
+2026-02-23 10:51:03 | WARNING  | monitor | KOTAKBANK: invalid spot (0.00) — skipping
+2026-02-23 10:51:03 | WARNING  | monitor | AXISBANK: invalid spot (0.00) — skipping
+2026-02-23 10:51:04 | WARNING  | monitor | BAJFINANCE: invalid spot (0.00) — skipping
+2026-02-23 10:51:04 | WARNING  | monitor | BAJAJFINSV: invalid spot (0.00) — skipping
+2026-02-23 10:51:04 | WARNING  | monitor | INDUSINDBK: invalid spot (0.00) — skipping
+2026-02-23 10:51:05 | WARNING  | monitor | TCS: invalid spot (0.00) — skipping
+2026-02-23 10:51:05 | WARNING  | monitor | INFY: invalid spot (0.00) — skipping
+2026-02-23 10:51:05 | WARNING  | monitor | HCLTECH: invalid spot (0.00) — skipping
+2026-02-23 10:51:06 | WARNING  | monitor | WIPRO: invalid spot (0.00) — skipping
+2026-02-23 10:51:06 | WARNING  | monitor | TECHM: invalid spot (0.00) — skipping
+2026-02-23 10:51:06 | WARNING  | monitor | RELIANCE: invalid spot (0.00) — skipping
+2026-02-23 10:51:06 | WARNING  | monitor | ONGC: invalid spot (0.00) — skipping
+2026-02-23 10:51:07 | WARNING  | monitor | BPCL: invalid spot (0.00) — skipping
+2026-02-23 10:51:07 | WARNING  | monitor | NTPC: invalid spot (0.00) — skipping
+2026-02-23 10:51:08 | WARNING  | monitor | COALINDIA: invalid spot (0.00) — skipping
+2026-02-23 10:51:08 | WARNING  | monitor | MARUTI: invalid spot (0.00) — skipping
+2026-02-23 10:51:08 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-23 10:51:09 | WARNING  | monitor | M&M: invalid spot (0.00) — skipping
+2026-02-23 10:51:10 | WARNING  | monitor | TATASTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:51:11 | WARNING  | monitor | HINDALCO: invalid spot (0.00) — skipping
+2026-02-23 10:51:11 | WARNING  | monitor | JSWSTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:51:12 | WARNING  | monitor | SUNPHARMA: invalid spot (0.00) — skipping
+2026-02-23 10:51:12 | WARNING  | monitor | DRREDDY: invalid spot (0.00) — skipping
+2026-02-23 10:51:13 | WARNING  | monitor | CIPLA: invalid spot (0.00) — skipping
+2026-02-23 10:51:13 | WARNING  | monitor | LT: invalid spot (0.00) — skipping
+2026-02-23 10:51:14 | WARNING  | monitor | ADANIENT: invalid spot (0.00) — skipping
+2026-02-23 10:51:14 | WARNING  | monitor | BHARTIARTL: invalid spot (0.00) — skipping
+2026-02-23 10:51:14 | WARNING  | monitor | ITC: invalid spot (0.00) — skipping
+2026-02-23 10:51:15 | WARNING  | monitor | TITAN: invalid spot (0.00) — skipping
+2026-02-23 10:51:15 | WARNING  | monitor | ASIANPAINT: invalid spot (0.00) — skipping
+2026-02-23 10:51:15 | WARNING  | monitor | NESTLEIND: invalid spot (0.00) — skipping
+2026-02-23 10:51:43 | WARNING  | monitor | NIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:51:43 | WARNING  | monitor | SENSEX: invalid spot (0.00) — skipping
+2026-02-23 10:51:44 | WARNING  | monitor | BANKNIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:51:44 | WARNING  | monitor | MIDCAPSELECT: invalid spot (0.00) — skipping
+2026-02-23 10:52:16 | WARNING  | monitor | HDFCBANK: invalid spot (0.00) — skipping
+2026-02-23 10:52:16 | WARNING  | monitor | ICICIBANK: invalid spot (0.00) — skipping
+2026-02-23 10:52:16 | WARNING  | monitor | SBIN: invalid spot (0.00) — skipping
+2026-02-23 10:52:17 | WARNING  | monitor | KOTAKBANK: invalid spot (0.00) — skipping
+2026-02-23 10:52:17 | WARNING  | monitor | AXISBANK: invalid spot (0.00) — skipping
+2026-02-23 10:52:17 | WARNING  | monitor | BAJFINANCE: invalid spot (0.00) — skipping
+2026-02-23 10:52:18 | WARNING  | monitor | BAJAJFINSV: invalid spot (0.00) — skipping
+2026-02-23 10:52:18 | WARNING  | monitor | INDUSINDBK: invalid spot (0.00) — skipping
+2026-02-23 10:52:19 | WARNING  | monitor | TCS: invalid spot (0.00) — skipping
+2026-02-23 10:52:19 | WARNING  | monitor | INFY: invalid spot (0.00) — skipping
+2026-02-23 10:52:19 | WARNING  | monitor | HCLTECH: invalid spot (0.00) — skipping
+2026-02-23 10:52:20 | WARNING  | monitor | WIPRO: invalid spot (0.00) — skipping
+2026-02-23 10:52:20 | WARNING  | monitor | TECHM: invalid spot (0.00) — skipping
+2026-02-23 10:52:21 | WARNING  | monitor | RELIANCE: invalid spot (0.00) — skipping
+2026-02-23 10:52:21 | WARNING  | monitor | ONGC: invalid spot (0.00) — skipping
+2026-02-23 10:52:22 | WARNING  | monitor | BPCL: invalid spot (0.00) — skipping
+2026-02-23 10:52:22 | WARNING  | monitor | NTPC: invalid spot (0.00) — skipping
+2026-02-23 10:52:22 | WARNING  | monitor | COALINDIA: invalid spot (0.00) — skipping
+2026-02-23 10:52:22 | WARNING  | monitor | MARUTI: invalid spot (0.00) — skipping
+2026-02-23 10:52:23 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-23 10:52:23 | WARNING  | monitor | M&M: invalid spot (0.00) — skipping
+2026-02-23 10:52:23 | WARNING  | monitor | TATASTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:52:23 | WARNING  | monitor | HINDALCO: invalid spot (0.00) — skipping
+2026-02-23 10:52:24 | WARNING  | monitor | JSWSTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:52:24 | WARNING  | monitor | SUNPHARMA: invalid spot (0.00) — skipping
+2026-02-23 10:52:24 | WARNING  | monitor | DRREDDY: invalid spot (0.00) — skipping
+2026-02-23 10:52:25 | WARNING  | monitor | CIPLA: invalid spot (0.00) — skipping
+2026-02-23 10:52:25 | WARNING  | monitor | LT: invalid spot (0.00) — skipping
+2026-02-23 10:52:25 | WARNING  | monitor | ADANIENT: invalid spot (0.00) — skipping
+2026-02-23 10:52:26 | WARNING  | monitor | BHARTIARTL: invalid spot (0.00) — skipping
+2026-02-23 10:52:26 | WARNING  | monitor | ITC: invalid spot (0.00) — skipping
+2026-02-23 10:52:26 | WARNING  | monitor | TITAN: invalid spot (0.00) — skipping
+2026-02-23 10:52:27 | WARNING  | monitor | ASIANPAINT: invalid spot (0.00) — skipping
+2026-02-23 10:52:27 | WARNING  | monitor | NESTLEIND: invalid spot (0.00) — skipping
+2026-02-23 10:52:44 | WARNING  | monitor | NIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:52:45 | WARNING  | monitor | SENSEX: invalid spot (0.00) — skipping
+2026-02-23 10:52:45 | WARNING  | monitor | BANKNIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:52:45 | WARNING  | monitor | MIDCAPSELECT: invalid spot (0.00) — skipping
+2026-02-23 10:53:27 | WARNING  | monitor | HDFCBANK: invalid spot (0.00) — skipping
+2026-02-23 10:53:27 | WARNING  | monitor | ICICIBANK: invalid spot (0.00) — skipping
+2026-02-23 10:53:28 | WARNING  | monitor | SBIN: invalid spot (0.00) — skipping
+2026-02-23 10:53:28 | WARNING  | monitor | KOTAKBANK: invalid spot (0.00) — skipping
+2026-02-23 10:53:28 | WARNING  | monitor | AXISBANK: invalid spot (0.00) — skipping
+2026-02-23 10:53:29 | WARNING  | monitor | BAJFINANCE: invalid spot (0.00) — skipping
+2026-02-23 10:53:29 | WARNING  | monitor | BAJAJFINSV: invalid spot (0.00) — skipping
+2026-02-23 10:53:29 | WARNING  | monitor | INDUSINDBK: invalid spot (0.00) — skipping
+2026-02-23 10:53:30 | WARNING  | monitor | TCS: invalid spot (0.00) — skipping
+2026-02-23 10:53:30 | WARNING  | monitor | INFY: invalid spot (0.00) — skipping
+2026-02-23 10:53:30 | WARNING  | monitor | HCLTECH: invalid spot (0.00) — skipping
+2026-02-23 10:53:31 | WARNING  | monitor | WIPRO: invalid spot (0.00) — skipping
+2026-02-23 10:53:31 | WARNING  | monitor | TECHM: invalid spot (0.00) — skipping
+2026-02-23 10:53:33 | WARNING  | monitor | RELIANCE: invalid spot (0.00) — skipping
+2026-02-23 10:53:33 | WARNING  | monitor | ONGC: invalid spot (0.00) — skipping
+2026-02-23 10:53:33 | WARNING  | monitor | BPCL: invalid spot (0.00) — skipping
+2026-02-23 10:53:34 | WARNING  | monitor | NTPC: invalid spot (0.00) — skipping
+2026-02-23 10:53:34 | WARNING  | monitor | COALINDIA: invalid spot (0.00) — skipping
+2026-02-23 10:53:34 | WARNING  | monitor | MARUTI: invalid spot (0.00) — skipping
+2026-02-23 10:53:34 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-23 10:53:35 | WARNING  | monitor | M&M: invalid spot (0.00) — skipping
+2026-02-23 10:53:36 | WARNING  | monitor | TATASTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:53:36 | WARNING  | monitor | HINDALCO: invalid spot (0.00) — skipping
+2026-02-23 10:53:37 | WARNING  | monitor | JSWSTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:53:37 | WARNING  | monitor | SUNPHARMA: invalid spot (0.00) — skipping
+2026-02-23 10:53:37 | WARNING  | monitor | DRREDDY: invalid spot (0.00) — skipping
+2026-02-23 10:53:39 | WARNING  | monitor | CIPLA: invalid spot (0.00) — skipping
+2026-02-23 10:53:39 | WARNING  | monitor | LT: invalid spot (0.00) — skipping
+2026-02-23 10:53:39 | WARNING  | monitor | ADANIENT: invalid spot (0.00) — skipping
+2026-02-23 10:53:39 | WARNING  | monitor | BHARTIARTL: invalid spot (0.00) — skipping
+2026-02-23 10:53:40 | WARNING  | monitor | ITC: invalid spot (0.00) — skipping
+2026-02-23 10:53:40 | WARNING  | monitor | TITAN: invalid spot (0.00) — skipping
+2026-02-23 10:53:41 | WARNING  | monitor | ASIANPAINT: invalid spot (0.00) — skipping
+2026-02-23 10:53:41 | WARNING  | monitor | NESTLEIND: invalid spot (0.00) — skipping
+2026-02-23 10:53:46 | WARNING  | monitor | NIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:53:47 | WARNING  | monitor | SENSEX: invalid spot (0.00) — skipping
+2026-02-23 10:53:47 | WARNING  | monitor | BANKNIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:53:47 | WARNING  | monitor | MIDCAPSELECT: invalid spot (0.00) — skipping
+2026-02-23 10:54:41 | WARNING  | monitor | HDFCBANK: invalid spot (0.00) — skipping
+2026-02-23 10:54:42 | WARNING  | monitor | ICICIBANK: invalid spot (0.00) — skipping
+2026-02-23 10:54:42 | WARNING  | monitor | SBIN: invalid spot (0.00) — skipping
+2026-02-23 10:54:42 | WARNING  | monitor | KOTAKBANK: invalid spot (0.00) — skipping
+2026-02-23 10:54:43 | WARNING  | monitor | AXISBANK: invalid spot (0.00) — skipping
+2026-02-23 10:54:44 | WARNING  | monitor | BAJFINANCE: invalid spot (0.00) — skipping
+2026-02-23 10:54:45 | WARNING  | monitor | BAJAJFINSV: invalid spot (0.00) — skipping
+2026-02-23 10:54:47 | WARNING  | monitor | INDUSINDBK: invalid spot (0.00) — skipping
+2026-02-23 10:54:47 | WARNING  | monitor | TCS: invalid spot (0.00) — skipping
+2026-02-23 10:54:47 | WARNING  | monitor | INFY: invalid spot (0.00) — skipping
+2026-02-23 10:54:48 | WARNING  | monitor | NIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:54:48 | WARNING  | monitor | HCLTECH: invalid spot (0.00) — skipping
+2026-02-23 10:54:48 | WARNING  | monitor | SENSEX: invalid spot (0.00) — skipping
+2026-02-23 10:54:48 | WARNING  | monitor | WIPRO: invalid spot (0.00) — skipping
+2026-02-23 10:54:48 | WARNING  | monitor | BANKNIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:54:48 | WARNING  | monitor | TECHM: invalid spot (0.00) — skipping
+2026-02-23 10:54:48 | WARNING  | monitor | MIDCAPSELECT: invalid spot (0.00) — skipping
+2026-02-23 10:54:49 | WARNING  | monitor | RELIANCE: invalid spot (0.00) — skipping
+2026-02-23 10:54:49 | WARNING  | monitor | ONGC: invalid spot (0.00) — skipping
+2026-02-23 10:54:49 | WARNING  | monitor | BPCL: invalid spot (0.00) — skipping
+2026-02-23 10:54:50 | WARNING  | monitor | NTPC: invalid spot (0.00) — skipping
+2026-02-23 10:54:50 | WARNING  | monitor | COALINDIA: invalid spot (0.00) — skipping
+2026-02-23 10:54:50 | WARNING  | monitor | MARUTI: invalid spot (0.00) — skipping
+2026-02-23 10:54:50 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-23 10:54:51 | WARNING  | monitor | M&M: invalid spot (0.00) — skipping
+2026-02-23 10:54:51 | WARNING  | monitor | TATASTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:54:51 | WARNING  | monitor | HINDALCO: invalid spot (0.00) — skipping
+2026-02-23 10:54:52 | WARNING  | monitor | JSWSTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:54:52 | WARNING  | monitor | SUNPHARMA: invalid spot (0.00) — skipping
+2026-02-23 10:54:52 | WARNING  | monitor | DRREDDY: invalid spot (0.00) — skipping
+2026-02-23 10:54:53 | WARNING  | monitor | CIPLA: invalid spot (0.00) — skipping
+2026-02-23 10:54:53 | WARNING  | monitor | LT: invalid spot (0.00) — skipping
+2026-02-23 10:54:53 | WARNING  | monitor | ADANIENT: invalid spot (0.00) — skipping
+2026-02-23 10:54:54 | WARNING  | monitor | BHARTIARTL: invalid spot (0.00) — skipping
+2026-02-23 10:54:54 | WARNING  | monitor | ITC: invalid spot (0.00) — skipping
+2026-02-23 10:54:54 | WARNING  | monitor | TITAN: invalid spot (0.00) — skipping
+2026-02-23 10:54:55 | WARNING  | monitor | ASIANPAINT: invalid spot (0.00) — skipping
+2026-02-23 10:54:55 | WARNING  | monitor | NESTLEIND: invalid spot (0.00) — skipping
+2026-02-23 10:55:49 | WARNING  | monitor | NIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:55:49 | WARNING  | monitor | SENSEX: invalid spot (0.00) — skipping
+2026-02-23 10:55:49 | WARNING  | monitor | BANKNIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:55:50 | WARNING  | monitor | MIDCAPSELECT: invalid spot (0.00) — skipping
+2026-02-23 10:55:56 | WARNING  | monitor | HDFCBANK: invalid spot (0.00) — skipping
+2026-02-23 10:55:57 | WARNING  | monitor | ICICIBANK: invalid spot (0.00) — skipping
+2026-02-23 10:55:57 | WARNING  | monitor | SBIN: invalid spot (0.00) — skipping
+2026-02-23 10:55:57 | WARNING  | monitor | KOTAKBANK: invalid spot (0.00) — skipping
+2026-02-23 10:55:57 | WARNING  | monitor | AXISBANK: invalid spot (0.00) — skipping
+2026-02-23 10:55:58 | WARNING  | monitor | BAJFINANCE: invalid spot (0.00) — skipping
+2026-02-23 10:55:58 | WARNING  | monitor | BAJAJFINSV: invalid spot (0.00) — skipping
+2026-02-23 10:55:58 | WARNING  | monitor | INDUSINDBK: invalid spot (0.00) — skipping
+2026-02-23 10:55:59 | WARNING  | monitor | TCS: invalid spot (0.00) — skipping
+2026-02-23 10:55:59 | WARNING  | monitor | INFY: invalid spot (0.00) — skipping
+2026-02-23 10:55:59 | WARNING  | monitor | HCLTECH: invalid spot (0.00) — skipping
+2026-02-23 10:56:00 | WARNING  | monitor | WIPRO: invalid spot (0.00) — skipping
+2026-02-23 10:56:00 | WARNING  | monitor | TECHM: invalid spot (0.00) — skipping
+2026-02-23 10:56:00 | WARNING  | monitor | RELIANCE: invalid spot (0.00) — skipping
+2026-02-23 10:56:01 | WARNING  | monitor | ONGC: invalid spot (0.00) — skipping
+2026-02-23 10:56:01 | WARNING  | monitor | BPCL: invalid spot (0.00) — skipping
+2026-02-23 10:56:02 | WARNING  | monitor | NTPC: invalid spot (0.00) — skipping
+2026-02-23 10:56:02 | WARNING  | monitor | COALINDIA: invalid spot (0.00) — skipping
+2026-02-23 10:56:02 | WARNING  | monitor | MARUTI: invalid spot (0.00) — skipping
+2026-02-23 10:56:02 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-23 10:56:03 | WARNING  | monitor | M&M: invalid spot (0.00) — skipping
+2026-02-23 10:56:03 | WARNING  | monitor | TATASTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:56:03 | WARNING  | monitor | HINDALCO: invalid spot (0.00) — skipping
+2026-02-23 10:56:04 | WARNING  | monitor | JSWSTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:56:04 | WARNING  | monitor | SUNPHARMA: invalid spot (0.00) — skipping
+2026-02-23 10:56:04 | WARNING  | monitor | DRREDDY: invalid spot (0.00) — skipping
+2026-02-23 10:56:05 | WARNING  | monitor | CIPLA: invalid spot (0.00) — skipping
+2026-02-23 10:56:05 | WARNING  | monitor | LT: invalid spot (0.00) — skipping
+2026-02-23 10:56:05 | WARNING  | monitor | ADANIENT: invalid spot (0.00) — skipping
+2026-02-23 10:56:06 | WARNING  | monitor | BHARTIARTL: invalid spot (0.00) — skipping
+2026-02-23 10:56:06 | WARNING  | monitor | ITC: invalid spot (0.00) — skipping
+2026-02-23 10:56:06 | WARNING  | monitor | TITAN: invalid spot (0.00) — skipping
+2026-02-23 10:56:06 | WARNING  | monitor | ASIANPAINT: invalid spot (0.00) — skipping
+2026-02-23 10:56:07 | WARNING  | monitor | NESTLEIND: invalid spot (0.00) — skipping
+2026-02-23 10:56:50 | WARNING  | monitor | NIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:56:50 | WARNING  | monitor | SENSEX: invalid spot (0.00) — skipping
+2026-02-23 10:57:01 | WARNING  | monitor | BANKNIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:57:01 | WARNING  | monitor | MIDCAPSELECT: invalid spot (0.00) — skipping
+2026-02-23 10:57:07 | WARNING  | monitor | HDFCBANK: invalid spot (0.00) — skipping
+2026-02-23 10:57:07 | WARNING  | monitor | ICICIBANK: invalid spot (0.00) — skipping
+2026-02-23 10:57:08 | WARNING  | monitor | SBIN: invalid spot (0.00) — skipping
+2026-02-23 10:57:08 | WARNING  | monitor | KOTAKBANK: invalid spot (0.00) — skipping
+2026-02-23 10:57:09 | WARNING  | monitor | AXISBANK: invalid spot (0.00) — skipping
+2026-02-23 10:57:09 | WARNING  | monitor | BAJFINANCE: invalid spot (0.00) — skipping
+2026-02-23 10:57:09 | WARNING  | monitor | BAJAJFINSV: invalid spot (0.00) — skipping
+2026-02-23 10:57:10 | WARNING  | monitor | INDUSINDBK: invalid spot (0.00) — skipping
+2026-02-23 10:57:10 | WARNING  | monitor | TCS: invalid spot (0.00) — skipping
+2026-02-23 10:57:10 | WARNING  | monitor | INFY: invalid spot (0.00) — skipping
+2026-02-23 10:57:11 | WARNING  | monitor | HCLTECH: invalid spot (0.00) — skipping
+2026-02-23 10:57:11 | WARNING  | monitor | WIPRO: invalid spot (0.00) — skipping
+2026-02-23 10:57:11 | WARNING  | monitor | TECHM: invalid spot (0.00) — skipping
+2026-02-23 10:57:11 | WARNING  | monitor | RELIANCE: invalid spot (0.00) — skipping
+2026-02-23 10:57:12 | WARNING  | monitor | ONGC: invalid spot (0.00) — skipping
+2026-02-23 10:57:12 | WARNING  | monitor | BPCL: invalid spot (0.00) — skipping
+2026-02-23 10:57:12 | WARNING  | monitor | NTPC: invalid spot (0.00) — skipping
+2026-02-23 10:57:13 | WARNING  | monitor | COALINDIA: invalid spot (0.00) — skipping
+2026-02-23 10:57:13 | WARNING  | monitor | MARUTI: invalid spot (0.00) — skipping
+2026-02-23 10:57:13 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-23 10:57:14 | WARNING  | monitor | M&M: invalid spot (0.00) — skipping
+2026-02-23 10:57:14 | WARNING  | monitor | TATASTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:57:14 | WARNING  | monitor | HINDALCO: invalid spot (0.00) — skipping
+2026-02-23 10:57:14 | WARNING  | monitor | JSWSTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:57:15 | WARNING  | monitor | SUNPHARMA: invalid spot (0.00) — skipping
+2026-02-23 10:57:17 | WARNING  | monitor | DRREDDY: invalid spot (0.00) — skipping
+2026-02-23 10:57:17 | WARNING  | monitor | CIPLA: invalid spot (0.00) — skipping
+2026-02-23 10:57:17 | WARNING  | monitor | LT: invalid spot (0.00) — skipping
+2026-02-23 10:57:18 | WARNING  | monitor | ADANIENT: invalid spot (0.00) — skipping
+2026-02-23 10:57:18 | WARNING  | monitor | BHARTIARTL: invalid spot (0.00) — skipping
+2026-02-23 10:57:19 | WARNING  | monitor | ITC: invalid spot (0.00) — skipping
+2026-02-23 10:57:19 | WARNING  | monitor | TITAN: invalid spot (0.00) — skipping
+2026-02-23 10:57:20 | WARNING  | monitor | ASIANPAINT: invalid spot (0.00) — skipping
+2026-02-23 10:57:20 | WARNING  | monitor | NESTLEIND: invalid spot (0.00) — skipping
+2026-02-23 10:58:01 | WARNING  | monitor | NIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:58:02 | WARNING  | monitor | SENSEX: invalid spot (0.00) — skipping
+2026-02-23 10:58:02 | WARNING  | monitor | BANKNIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:58:02 | WARNING  | monitor | MIDCAPSELECT: invalid spot (0.00) — skipping
+2026-02-23 10:58:20 | WARNING  | monitor | HDFCBANK: invalid spot (0.00) — skipping
+2026-02-23 10:58:21 | WARNING  | monitor | ICICIBANK: invalid spot (0.00) — skipping
+2026-02-23 10:58:21 | WARNING  | monitor | SBIN: invalid spot (0.00) — skipping
+2026-02-23 10:58:21 | WARNING  | monitor | KOTAKBANK: invalid spot (0.00) — skipping
+2026-02-23 10:58:21 | WARNING  | monitor | AXISBANK: invalid spot (0.00) — skipping
+2026-02-23 10:58:22 | WARNING  | monitor | BAJFINANCE: invalid spot (0.00) — skipping
+2026-02-23 10:58:22 | WARNING  | monitor | BAJAJFINSV: invalid spot (0.00) — skipping
+2026-02-23 10:58:22 | WARNING  | monitor | INDUSINDBK: invalid spot (0.00) — skipping
+2026-02-23 10:58:23 | WARNING  | monitor | TCS: invalid spot (0.00) — skipping
+2026-02-23 10:58:23 | WARNING  | monitor | INFY: invalid spot (0.00) — skipping
+2026-02-23 10:58:23 | WARNING  | monitor | HCLTECH: invalid spot (0.00) — skipping
+2026-02-23 10:58:24 | WARNING  | monitor | WIPRO: invalid spot (0.00) — skipping
+2026-02-23 10:58:24 | WARNING  | monitor | TECHM: invalid spot (0.00) — skipping
+2026-02-23 10:58:24 | WARNING  | monitor | RELIANCE: invalid spot (0.00) — skipping
+2026-02-23 10:58:25 | WARNING  | monitor | ONGC: invalid spot (0.00) — skipping
+2026-02-23 10:58:25 | WARNING  | monitor | BPCL: invalid spot (0.00) — skipping
+2026-02-23 10:58:25 | WARNING  | monitor | NTPC: invalid spot (0.00) — skipping
+2026-02-23 10:58:26 | WARNING  | monitor | COALINDIA: invalid spot (0.00) — skipping
+2026-02-23 10:58:26 | WARNING  | monitor | MARUTI: invalid spot (0.00) — skipping
+2026-02-23 10:58:26 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-23 10:58:27 | WARNING  | monitor | M&M: invalid spot (0.00) — skipping
+2026-02-23 10:58:27 | WARNING  | monitor | TATASTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:58:27 | WARNING  | monitor | HINDALCO: invalid spot (0.00) — skipping
+2026-02-23 10:58:28 | WARNING  | monitor | JSWSTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:58:28 | WARNING  | monitor | SUNPHARMA: invalid spot (0.00) — skipping
+2026-02-23 10:58:28 | WARNING  | monitor | DRREDDY: invalid spot (0.00) — skipping
+2026-02-23 10:58:28 | WARNING  | monitor | CIPLA: invalid spot (0.00) — skipping
+2026-02-23 10:58:29 | WARNING  | monitor | LT: invalid spot (0.00) — skipping
+2026-02-23 10:58:29 | WARNING  | monitor | ADANIENT: invalid spot (0.00) — skipping
+2026-02-23 10:58:29 | WARNING  | monitor | BHARTIARTL: invalid spot (0.00) — skipping
+2026-02-23 10:58:30 | WARNING  | monitor | ITC: invalid spot (0.00) — skipping
+2026-02-23 10:58:30 | WARNING  | monitor | TITAN: invalid spot (0.00) — skipping
+2026-02-23 10:58:31 | WARNING  | monitor | ASIANPAINT: invalid spot (0.00) — skipping
+2026-02-23 10:58:31 | WARNING  | monitor | NESTLEIND: invalid spot (0.00) — skipping
+2026-02-23 10:59:03 | WARNING  | monitor | NIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:59:03 | WARNING  | monitor | SENSEX: invalid spot (0.00) — skipping
+2026-02-23 10:59:03 | WARNING  | monitor | BANKNIFTY: invalid spot (0.00) — skipping
+2026-02-23 10:59:04 | WARNING  | monitor | MIDCAPSELECT: invalid spot (0.00) — skipping
+2026-02-23 10:59:31 | WARNING  | monitor | HDFCBANK: invalid spot (0.00) — skipping
+2026-02-23 10:59:32 | WARNING  | monitor | ICICIBANK: invalid spot (0.00) — skipping
+2026-02-23 10:59:32 | WARNING  | monitor | SBIN: invalid spot (0.00) — skipping
+2026-02-23 10:59:32 | WARNING  | monitor | KOTAKBANK: invalid spot (0.00) — skipping
+2026-02-23 10:59:33 | WARNING  | monitor | AXISBANK: invalid spot (0.00) — skipping
+2026-02-23 10:59:33 | WARNING  | monitor | BAJFINANCE: invalid spot (0.00) — skipping
+2026-02-23 10:59:33 | WARNING  | monitor | BAJAJFINSV: invalid spot (0.00) — skipping
+2026-02-23 10:59:34 | WARNING  | monitor | INDUSINDBK: invalid spot (0.00) — skipping
+2026-02-23 10:59:34 | WARNING  | monitor | TCS: invalid spot (0.00) — skipping
+2026-02-23 10:59:34 | WARNING  | monitor | INFY: invalid spot (0.00) — skipping
+2026-02-23 10:59:35 | WARNING  | monitor | HCLTECH: invalid spot (0.00) — skipping
+2026-02-23 10:59:35 | WARNING  | monitor | WIPRO: invalid spot (0.00) — skipping
+2026-02-23 10:59:35 | WARNING  | monitor | TECHM: invalid spot (0.00) — skipping
+2026-02-23 10:59:36 | WARNING  | monitor | RELIANCE: invalid spot (0.00) — skipping
+2026-02-23 10:59:36 | WARNING  | monitor | ONGC: invalid spot (0.00) — skipping
+2026-02-23 10:59:36 | WARNING  | monitor | BPCL: invalid spot (0.00) — skipping
+2026-02-23 10:59:37 | WARNING  | monitor | NTPC: invalid spot (0.00) — skipping
+2026-02-23 10:59:37 | WARNING  | monitor | COALINDIA: invalid spot (0.00) — skipping
+2026-02-23 10:59:38 | WARNING  | monitor | MARUTI: invalid spot (0.00) — skipping
+2026-02-23 10:59:38 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-23 10:59:39 | WARNING  | monitor | M&M: invalid spot (0.00) — skipping
+2026-02-23 10:59:41 | WARNING  | monitor | TATASTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:59:45 | WARNING  | monitor | HINDALCO: invalid spot (0.00) — skipping
+2026-02-23 10:59:45 | WARNING  | monitor | JSWSTEEL: invalid spot (0.00) — skipping
+2026-02-23 10:59:46 | WARNING  | monitor | SUNPHARMA: invalid spot (0.00) — skipping
+2026-02-23 10:59:46 | WARNING  | monitor | DRREDDY: invalid spot (0.00) — skipping
+2026-02-23 10:59:46 | WARNING  | monitor | CIPLA: invalid spot (0.00) — skipping
+2026-02-23 10:59:47 | WARNING  | monitor | LT: invalid spot (0.00) — skipping
+2026-02-23 10:59:47 | WARNING  | monitor | ADANIENT: invalid spot (0.00) — skipping
+2026-02-23 10:59:47 | WARNING  | monitor | BHARTIARTL: invalid spot (0.00) — skipping
+2026-02-23 10:59:48 | WARNING  | monitor | ITC: invalid spot (0.00) — skipping
+2026-02-23 10:59:48 | WARNING  | monitor | TITAN: invalid spot (0.00) — skipping
+2026-02-23 10:59:48 | WARNING  | monitor | ASIANPAINT: invalid spot (0.00) — skipping
+2026-02-23 10:59:49 | WARNING  | monitor | NESTLEIND: invalid spot (0.00) — skipping
+2026-02-23 11:00:04 | WARNING  | monitor | NIFTY: invalid spot (0.00) — skipping
+2026-02-23 11:00:04 | WARNING  | monitor | SENSEX: invalid spot (0.00) — skipping
+2026-02-23 11:00:06 | WARNING  | monitor | BANKNIFTY: invalid spot (0.00) — skipping
+2026-02-23 11:00:07 | WARNING  | monitor | MIDCAPSELECT: invalid spot (0.00) — skipping
+2026-02-23 11:00:49 | WARNING  | monitor | HDFCBANK: invalid spot (0.00) — skipping
+2026-02-23 11:00:49 | WARNING  | monitor | ICICIBANK: invalid spot (0.00) — skipping
+2026-02-23 11:00:50 | WARNING  | monitor | SBIN: invalid spot (0.00) — skipping
+2026-02-23 11:00:50 | WARNING  | monitor | KOTAKBANK: invalid spot (0.00) — skipping
+2026-02-23 11:00:50 | WARNING  | monitor | AXISBANK: invalid spot (0.00) — skipping
+2026-02-23 11:00:51 | WARNING  | monitor | BAJFINANCE: invalid spot (0.00) — skipping
+2026-02-23 11:00:51 | WARNING  | monitor | BAJAJFINSV: invalid spot (0.00) — skipping
+2026-02-23 11:00:51 | WARNING  | monitor | INDUSINDBK: invalid spot (0.00) — skipping
+2026-02-23 11:00:52 | WARNING  | monitor | TCS: invalid spot (0.00) — skipping
+2026-02-23 11:00:52 | WARNING  | monitor | INFY: invalid spot (0.00) — skipping
+2026-02-23 11:00:52 | WARNING  | monitor | HCLTECH: invalid spot (0.00) — skipping
+2026-02-23 11:00:53 | WARNING  | monitor | WIPRO: invalid spot (0.00) — skipping
+2026-02-23 11:00:53 | WARNING  | monitor | TECHM: invalid spot (0.00) — skipping
+2026-02-23 11:00:53 | WARNING  | monitor | RELIANCE: invalid spot (0.00) — skipping
+2026-02-23 11:00:54 | WARNING  | monitor | ONGC: invalid spot (0.00) — skipping
+2026-02-23 11:00:54 | WARNING  | monitor | BPCL: invalid spot (0.00) — skipping
+2026-02-23 11:00:54 | WARNING  | monitor | NTPC: invalid spot (0.00) — skipping
+2026-02-23 11:00:55 | WARNING  | monitor | COALINDIA: invalid spot (0.00) — skipping
+2026-02-23 11:00:55 | WARNING  | monitor | MARUTI: invalid spot (0.00) — skipping
+2026-02-23 11:00:55 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-23 11:00:55 | WARNING  | monitor | M&M: invalid spot (0.00) — skipping
+2026-02-23 11:00:56 | WARNING  | monitor | TATASTEEL: invalid spot (0.00) — skipping
+2026-02-23 11:00:56 | WARNING  | monitor | HINDALCO: invalid spot (0.00) — skipping
+2026-02-23 11:00:56 | WARNING  | monitor | JSWSTEEL: invalid spot (0.00) — skipping
+2026-02-23 11:00:57 | WARNING  | monitor | SUNPHARMA: invalid spot (0.00) — skipping
+2026-02-23 11:00:57 | WARNING  | monitor | DRREDDY: invalid spot (0.00) — skipping
+2026-02-23 11:00:57 | WARNING  | monitor | CIPLA: invalid spot (0.00) — skipping
+2026-02-23 11:01:04 | WARNING  | monitor | LT: invalid spot (0.00) — skipping
+2026-02-23 11:01:04 | WARNING  | monitor | ADANIENT: invalid spot (0.00) — skipping
+2026-02-23 11:01:04 | WARNING  | monitor | BHARTIARTL: invalid spot (0.00) — skipping
+2026-02-23 11:01:05 | WARNING  | monitor | ITC: invalid spot (0.00) — skipping
+2026-02-23 11:01:05 | WARNING  | monitor | TITAN: invalid spot (0.00) — skipping
+2026-02-23 11:01:05 | WARNING  | monitor | ASIANPAINT: invalid spot (0.00) — skipping
+2026-02-23 11:01:06 | WARNING  | monitor | NESTLEIND: invalid spot (0.00) — skipping
+2026-02-23 11:01:07 | WARNING  | monitor | NIFTY: invalid spot (0.00) — skipping
+2026-02-23 11:01:08 | WARNING  | monitor | SENSEX: invalid spot (0.00) — skipping
+2026-02-23 11:01:08 | WARNING  | monitor | BANKNIFTY: invalid spot (0.00) — skipping
+2026-02-23 11:01:08 | WARNING  | monitor | MIDCAPSELECT: invalid spot (0.00) — skipping
+2026-02-23 11:02:07 | WARNING  | monitor | HDFCBANK: invalid spot (0.00) — skipping
+2026-02-23 11:02:07 | WARNING  | monitor | ICICIBANK: invalid spot (0.00) — skipping
+2026-02-23 11:02:07 | WARNING  | monitor | SBIN: invalid spot (0.00) — skipping
+2026-02-23 11:02:08 | WARNING  | monitor | KOTAKBANK: invalid spot (0.00) — skipping
+2026-02-23 11:02:08 | WARNING  | monitor | AXISBANK: invalid spot (0.00) — skipping
+2026-02-23 11:02:08 | WARNING  | monitor | BAJFINANCE: invalid spot (0.00) — skipping
+2026-02-23 11:02:09 | WARNING  | monitor | BAJAJFINSV: invalid spot (0.00) — skipping
+2026-02-23 11:02:09 | WARNING  | monitor | NIFTY: invalid spot (0.00) — skipping
+2026-02-23 11:02:09 | WARNING  | monitor | INDUSINDBK: invalid spot (0.00) — skipping
+2026-02-23 11:02:09 | WARNING  | monitor | SENSEX: invalid spot (0.00) — skipping
+2026-02-23 11:02:09 | WARNING  | monitor | BANKNIFTY: invalid spot (0.00) — skipping
+2026-02-23 11:02:09 | WARNING  | monitor | TCS: invalid spot (0.00) — skipping
+2026-02-23 11:02:10 | WARNING  | monitor | MIDCAPSELECT: invalid spot (0.00) — skipping
+2026-02-23 11:02:10 | WARNING  | monitor | INFY: invalid spot (0.00) — skipping
+2026-02-23 11:02:10 | WARNING  | monitor | HCLTECH: invalid spot (0.00) — skipping
+2026-02-23 11:02:10 | WARNING  | monitor | WIPRO: invalid spot (0.00) — skipping
+2026-02-23 11:02:11 | WARNING  | monitor | TECHM: invalid spot (0.00) — skipping
+2026-02-23 11:02:11 | WARNING  | monitor | RELIANCE: invalid spot (0.00) — skipping
+2026-02-23 11:02:11 | WARNING  | monitor | ONGC: invalid spot (0.00) — skipping
+2026-02-23 11:02:12 | WARNING  | monitor | BPCL: invalid spot (0.00) — skipping
+2026-02-23 11:02:12 | WARNING  | monitor | NTPC: invalid spot (0.00) — skipping
+2026-02-23 11:02:13 | WARNING  | monitor | COALINDIA: invalid spot (0.00) — skipping
+2026-02-23 11:02:13 | WARNING  | monitor | MARUTI: invalid spot (0.00) — skipping
+2026-02-23 11:02:13 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-23 11:02:13 | WARNING  | monitor | M&M: invalid spot (0.00) — skipping
+2026-02-23 11:02:14 | WARNING  | monitor | TATASTEEL: invalid spot (0.00) — skipping
+2026-02-23 11:02:15 | WARNING  | monitor | HINDALCO: invalid spot (0.00) — skipping
+2026-02-23 11:02:18 | WARNING  | monitor | JSWSTEEL: invalid spot (0.00) — skipping
+2026-02-23 11:02:18 | WARNING  | monitor | SUNPHARMA: invalid spot (0.00) — skipping
+2026-02-23 11:02:18 | WARNING  | monitor | DRREDDY: invalid spot (0.00) — skipping
+2026-02-23 11:02:19 | WARNING  | monitor | CIPLA: invalid spot (0.00) — skipping
+2026-02-23 11:02:19 | WARNING  | monitor | LT: invalid spot (0.00) — skipping
+2026-02-23 11:02:19 | WARNING  | monitor | ADANIENT: invalid spot (0.00) — skipping
+2026-02-23 11:02:20 | WARNING  | monitor | BHARTIARTL: invalid spot (0.00) — skipping
+2026-02-23 11:02:21 | WARNING  | monitor | ITC: invalid spot (0.00) — skipping
+2026-02-23 11:02:21 | WARNING  | monitor | TITAN: invalid spot (0.00) — skipping
+2026-02-23 11:02:22 | WARNING  | monitor | ASIANPAINT: invalid spot (0.00) — skipping
+2026-02-23 11:02:22 | WARNING  | monitor | NESTLEIND: invalid spot (0.00) — skipping
+2026-02-23 11:03:10 | WARNING  | monitor | NIFTY: invalid spot (0.00) — skipping
+2026-02-23 11:03:10 | WARNING  | monitor | SENSEX: invalid spot (0.00) — skipping
+2026-02-23 11:03:10 | WARNING  | monitor | BANKNIFTY: invalid spot (0.00) — skipping
+2026-02-23 11:03:11 | WARNING  | monitor | MIDCAPSELECT: invalid spot (0.00) — skipping
+2026-02-23 11:03:22 | WARNING  | monitor | HDFCBANK: invalid spot (0.00) — skipping
+2026-02-23 11:03:23 | WARNING  | monitor | ICICIBANK: invalid spot (0.00) — skipping
+2026-02-23 11:03:24 | WARNING  | monitor | SBIN: invalid spot (0.00) — skipping
+2026-02-23 11:03:24 | WARNING  | monitor | KOTAKBANK: invalid spot (0.00) — skipping
+2026-02-23 11:03:24 | WARNING  | monitor | AXISBANK: invalid spot (0.00) — skipping
+2026-02-23 11:03:25 | WARNING  | monitor | BAJFINANCE: invalid spot (0.00) — skipping
+2026-02-23 11:03:25 | WARNING  | monitor | BAJAJFINSV: invalid spot (0.00) — skipping
+2026-02-23 11:03:25 | WARNING  | monitor | INDUSINDBK: invalid spot (0.00) — skipping
+2026-02-23 11:03:26 | WARNING  | monitor | TCS: invalid spot (0.00) — skipping
+2026-02-23 11:03:26 | WARNING  | monitor | INFY: invalid spot (0.00) — skipping
+2026-02-23 11:03:26 | WARNING  | monitor | HCLTECH: invalid spot (0.00) — skipping
+2026-02-23 11:03:27 | WARNING  | monitor | WIPRO: invalid spot (0.00) — skipping
+2026-02-23 11:03:27 | WARNING  | monitor | TECHM: invalid spot (0.00) — skipping
+2026-02-23 11:03:27 | WARNING  | monitor | RELIANCE: invalid spot (0.00) — skipping
+2026-02-23 11:03:28 | WARNING  | monitor | ONGC: invalid spot (0.00) — skipping
+2026-02-23 11:03:28 | WARNING  | monitor | BPCL: invalid spot (0.00) — skipping
+2026-02-23 11:03:28 | WARNING  | monitor | NTPC: invalid spot (0.00) — skipping
+2026-02-23 11:03:28 | WARNING  | monitor | COALINDIA: invalid spot (0.00) — skipping
+2026-02-23 11:03:29 | WARNING  | monitor | MARUTI: invalid spot (0.00) — skipping
+2026-02-23 11:03:29 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-23 11:03:30 | WARNING  | monitor | M&M: invalid spot (0.00) — skipping
+2026-02-23 11:03:30 | WARNING  | monitor | TATASTEEL: invalid spot (0.00) — skipping
+2026-02-23 11:03:30 | WARNING  | monitor | HINDALCO: invalid spot (0.00) — skipping
+2026-02-23 11:03:30 | WARNING  | monitor | JSWSTEEL: invalid spot (0.00) — skipping
+2026-02-23 11:03:31 | WARNING  | monitor | SUNPHARMA: invalid spot (0.00) — skipping
+2026-02-23 11:03:31 | WARNING  | monitor | DRREDDY: invalid spot (0.00) — skipping
+2026-02-23 11:03:32 | WARNING  | monitor | CIPLA: invalid spot (0.00) — skipping
+2026-02-23 11:03:32 | WARNING  | monitor | LT: invalid spot (0.00) — skipping
+2026-02-23 11:03:32 | WARNING  | monitor | ADANIENT: invalid spot (0.00) — skipping
+2026-02-23 11:03:33 | WARNING  | monitor | BHARTIARTL: invalid spot (0.00) — skipping
+2026-02-23 11:03:33 | WARNING  | monitor | ITC: invalid spot (0.00) — skipping
+2026-02-23 11:03:33 | WARNING  | monitor | TITAN: invalid spot (0.00) — skipping
+2026-02-23 11:03:34 | WARNING  | monitor | ASIANPAINT: invalid spot (0.00) — skipping
+2026-02-23 11:03:34 | WARNING  | monitor | NESTLEIND: invalid spot (0.00) — skipping
+2026-02-23 11:04:11 | WARNING  | monitor | NIFTY: invalid spot (0.00) — skipping
+2026-02-23 11:04:11 | WARNING  | monitor | SENSEX: invalid spot (0.00) — skipping
+2026-02-23 11:04:12 | WARNING  | monitor | BANKNIFTY: invalid spot (0.00) — skipping
+2026-02-23 11:04:12 | WARNING  | monitor | MIDCAPSELECT: invalid spot (0.00) — skipping
+2026-02-23 11:04:34 | WARNING  | monitor | HDFCBANK: invalid spot (0.00) — skipping
+2026-02-23 11:04:35 | WARNING  | monitor | ICICIBANK: invalid spot (0.00) — skipping
+2026-02-23 11:04:35 | WARNING  | monitor | SBIN: invalid spot (0.00) — skipping
+2026-02-23 11:04:35 | WARNING  | monitor | KOTAKBANK: invalid spot (0.00) — skipping
+2026-02-23 11:04:36 | WARNING  | monitor | AXISBANK: invalid spot (0.00) — skipping
+2026-02-23 11:04:36 | WARNING  | monitor | BAJFINANCE: invalid spot (0.00) — skipping
+2026-02-23 11:04:37 | WARNING  | monitor | BAJAJFINSV: invalid spot (0.00) — skipping
+2026-02-23 11:04:37 | WARNING  | monitor | INDUSINDBK: invalid spot (0.00) — skipping
+2026-02-23 11:04:38 | WARNING  | monitor | TCS: invalid spot (0.00) — skipping
+2026-02-23 11:04:41 | WARNING  | monitor | INFY: invalid spot (0.00) — skipping
+2026-02-23 11:04:41 | WARNING  | monitor | HCLTECH: invalid spot (0.00) — skipping
+2026-02-23 11:04:42 | WARNING  | monitor | WIPRO: invalid spot (0.00) — skipping
+2026-02-23 11:04:42 | WARNING  | monitor | TECHM: invalid spot (0.00) — skipping
+2026-02-23 11:04:42 | WARNING  | monitor | RELIANCE: invalid spot (0.00) — skipping
+2026-02-23 11:04:42 | WARNING  | monitor | ONGC: invalid spot (0.00) — skipping
+2026-02-23 11:04:43 | WARNING  | monitor | BPCL: invalid spot (0.00) — skipping
+2026-02-23 11:04:43 | WARNING  | monitor | NTPC: invalid spot (0.00) — skipping
+2026-02-23 11:04:43 | WARNING  | monitor | COALINDIA: invalid spot (0.00) — skipping
+2026-02-23 11:04:44 | WARNING  | monitor | MARUTI: invalid spot (0.00) — skipping
+2026-02-23 11:04:44 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-23 11:04:44 | WARNING  | monitor | M&M: invalid spot (0.00) — skipping
+2026-02-23 11:04:44 | WARNING  | monitor | TATASTEEL: invalid spot (0.00) — skipping
+2026-02-23 11:04:45 | WARNING  | monitor | HINDALCO: invalid spot (0.00) — skipping
+2026-02-23 11:04:45 | WARNING  | monitor | JSWSTEEL: invalid spot (0.00) — skipping
+2026-02-23 11:04:45 | WARNING  | monitor | SUNPHARMA: invalid spot (0.00) — skipping
+2026-02-23 11:04:45 | WARNING  | monitor | DRREDDY: invalid spot (0.00) — skipping
+2026-02-23 11:04:46 | WARNING  | monitor | CIPLA: invalid spot (0.00) — skipping
+2026-02-23 11:04:46 | WARNING  | monitor | LT: invalid spot (0.00) — skipping
+2026-02-23 11:04:46 | WARNING  | monitor | ADANIENT: invalid spot (0.00) — skipping
+2026-02-23 11:04:47 | WARNING  | monitor | BHARTIARTL: invalid spot (0.00) — skipping
+2026-02-23 11:04:47 | WARNING  | monitor | ITC: invalid spot (0.00) — skipping
+2026-02-23 11:04:47 | WARNING  | monitor | TITAN: invalid spot (0.00) — skipping
+2026-02-23 11:04:48 | WARNING  | monitor | ASIANPAINT: invalid spot (0.00) — skipping
+2026-02-23 11:04:48 | WARNING  | monitor | NESTLEIND: invalid spot (0.00) — skipping
+2026-02-23 11:05:13 | WARNING  | monitor | NIFTY: invalid spot (0.00) — skipping
+2026-02-23 11:05:13 | WARNING  | monitor | SENSEX: invalid spot (0.00) — skipping
+2026-02-23 11:05:13 | WARNING  | monitor | BANKNIFTY: invalid spot (0.00) — skipping
+2026-02-23 11:05:14 | WARNING  | monitor | MIDCAPSELECT: invalid spot (0.00) — skipping
+2026-02-23 11:05:19 | INFO     | main | Shutdown signal (15) received — stopping …
+2026-02-23 11:05:19 | INFO     | monitor | Index OI Monitor stopping …
+2026-02-23 11:05:19 | INFO     | angel_source | AngelDataSource stopped
+2026-02-23 11:05:20 | INFO     | monitor | Stock OI Monitor stopping …
+2026-02-23 11:05:20 | INFO     | angel_source | AngelDataSource stopped
+2026-02-24 09:10:37 | INFO     | main | ============================================================
+2026-02-24 09:10:37 | INFO     | main |   NSE / BSE  OI  SPIKE  MONITOR  (Index + F&O Stocks)
+2026-02-24 09:10:37 | INFO     | main | ============================================================
+2026-02-24 09:10:37 | INFO     | main | Data source   : ANGEL
+2026-02-24 09:10:37 | INFO     | main | Poll interval : 60s
+2026-02-24 09:10:37 | INFO     | main | CSV logging   : ON
+2026-02-24 09:10:37 | INFO     | main | Market hours  : enforced
+2026-02-24 09:10:37 | INFO     | main | Indices       : NIFTY, SENSEX, BANKNIFTY, MIDCAPSELECT
+2026-02-24 09:10:37 | INFO     | main | F&O Stocks    : 34 configured
+2026-02-24 09:10:37 | INFO     | main | Starting data source (ANGEL) …
+2026-02-24 09:10:38 | INFO     | angel_source | Authenticated (attempt 1)
+2026-02-24 09:10:38 | INFO     | angel_source | Downloading Angel One instrument master …
+2026-02-24 09:10:54 | INFO     | angel_source | Master downloaded: 212371 records
+2026-02-24 09:10:54 | INFO     | angel_source | Token maps built | eq=38/38  nfo_options=11203
+2026-02-24 09:10:54 | WARNING  | angel_source | Missing equity tokens for: ['TATAMOTORS']
+2026-02-24 09:10:54 | INFO     | angel_source | Bootstrapping spot prices …
+2026-02-24 09:10:55 | INFO     | angel_source | Bootstrap done: 38/38 spots resolved
+2026-02-24 09:10:55 | INFO     | angel_source | Angel WS thread started
+2026-02-24 09:10:55 | INFO     | angel_source | AngelDataSource ready | eq_tokens=38  nfo_tokens=11203
+2026-02-24 09:10:55 | INFO     | main | Data source ready
+2026-02-24 09:10:55 | INFO     | main | Stock OI Monitor thread started
+2026-02-24 09:10:55 | INFO     | monitor | Stock OI Monitor starting …
+2026-02-24 09:10:55 | INFO     | monitor | Index OI Monitor starting …
+2026-02-24 09:10:55 | INFO     | monitor |   HDFCBANK             expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   NIFTY                expiry=24FEB2026    threshold=500%
+2026-02-24 09:10:55 | INFO     | monitor |   ICICIBANK            expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   SENSEX               expiry=26FEB2026    threshold=500%
+2026-02-24 09:10:55 | INFO     | monitor |   SBIN                 expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   BANKNIFTY            expiry=26FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   KOTAKBANK            expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   MIDCAPSELECT         expiry=02MAR2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   AXISBANK             expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   BAJFINANCE           expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   BAJAJFINSV           expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   INDUSINDBK           expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   TCS                  expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   INFY                 expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   HCLTECH              expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   WIPRO                expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   TECHM                expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   RELIANCE             expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   ONGC                 expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   BPCL                 expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   NTPC                 expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   COALINDIA            expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   MARUTI               expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   TATAMOTORS           expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   M&M                  expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   TATASTEEL            expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   HINDALCO             expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   JSWSTEEL             expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   SUNPHARMA            expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   DRREDDY              expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   CIPLA                expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   LT                   expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | angel_source | Angel WS connected
+2026-02-24 09:10:55 | INFO     | monitor |   ADANIENT             expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   BHARTIARTL           expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   ITC                  expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   TITAN                expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   ASIANPAINT           expiry=24FEB2026    threshold=100%
+2026-02-24 09:10:55 | INFO     | monitor |   NESTLEIND            expiry=24FEB2026    threshold=100%
+2026-02-24 09:12:57 | INFO     | angel_source | Angel WS connected
+2026-02-24 09:16:09 | ERROR    | angel_source | Angel WS error: Connection closed
+2026-02-24 09:16:09 | INFO     | angel_source | WS reconnect 1/10 in 5s …
+2026-02-24 09:16:09 | ERROR    | angel_source | Angel WS error: Connection closed
+2026-02-24 09:16:09 | INFO     | angel_source | WS reconnect 1/10 in 5s …
+2026-02-24 09:16:09 | ERROR    | angel_source | Angel WS error: Connection closed
+2026-02-24 09:16:09 | INFO     | angel_source | WS reconnect 1/10 in 5s …
+2026-02-24 09:16:09 | ERROR    | angel_source | OI fetch failed TECHM 1400 PE: HTTPSConnectionPool(host='apiconnect.angelone.in', port=443): Max retries exceeded with url: /rest/secure/angelbroking/market/v1/quote/ (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)')))
+2026-02-24 09:16:22 | WARNING  | angel_source | Rate limit — waiting 10s (attempt 1/5)
+2026-02-24 09:16:22 | WARNING  | angel_source | Rate limit — waiting 10s (attempt 1/5)
+2026-02-24 09:16:22 | INFO     | angel_source | Authenticated (attempt 1)
+2026-02-24 09:16:22 | INFO     | angel_source | Downloading Angel One instrument master …
+2026-02-24 09:16:32 | WARNING  | angel_source | Rate limit — waiting 20s (attempt 2/5)
+2026-02-24 09:16:33 | INFO     | angel_source | Authenticated (attempt 2)
+2026-02-24 09:16:33 | INFO     | angel_source | Downloading Angel One instrument master …
+2026-02-24 09:16:38 | WARNING  | angel_source | No equity token for TATAMOTORS
+2026-02-24 09:16:38 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-24 09:16:42 | INFO     | angel_source | Master downloaded: 212371 records
+2026-02-24 09:16:43 | INFO     | angel_source | Token maps built | eq=38/38  nfo_options=11203
+2026-02-24 09:16:43 | WARNING  | angel_source | Missing equity tokens for: ['TATAMOTORS']
+2026-02-24 09:16:43 | INFO     | angel_source | Bootstrapping spot prices …
+2026-02-24 09:16:43 | INFO     | angel_source | Bootstrap done: 38/38 spots resolved
+2026-02-24 09:16:43 | INFO     | angel_source | Angel WS thread started
+2026-02-24 09:16:43 | INFO     | angel_source | Angel WS connected
+2026-02-24 09:16:53 | INFO     | angel_source | Authenticated (attempt 3)
+2026-02-24 09:16:53 | INFO     | angel_source | Downloading Angel One instrument master …
+2026-02-24 09:17:04 | INFO     | monitor | NIFTY ATM changed 25650 → 25600
+2026-02-24 09:17:04 | INFO     | monitor | NIFTY: WS resubscription triggered for new strikes ITM=25550 ATM=25600 OTM=25650
+2026-02-24 09:17:06 | INFO     | monitor | SENSEX ATM changed 83100 → 82900
+2026-02-24 09:17:06 | INFO     | monitor | SENSEX: WS resubscription triggered for new strikes ITM=82800 ATM=82900 OTM=83000
+2026-02-24 09:17:06 | INFO     | monitor | BANKNIFTY ATM changed 61400 → 61300
+2026-02-24 09:17:06 | INFO     | monitor | BANKNIFTY: WS resubscription triggered for new strikes ITM=61200 ATM=61300 OTM=61400
+2026-02-24 09:17:06 | INFO     | monitor | MIDCAPSELECT ATM changed 13450 → 13425
+2026-02-24 09:17:06 | INFO     | monitor | MIDCAPSELECT: WS resubscription triggered for new strikes ITM=13400 ATM=13425 OTM=13450
+2026-02-24 09:17:12 | INFO     | angel_source | Master downloaded: 212371 records
+2026-02-24 09:17:13 | INFO     | angel_source | Token maps built | eq=38/38  nfo_options=11203
+2026-02-24 09:17:13 | WARNING  | angel_source | Missing equity tokens for: ['TATAMOTORS']
+2026-02-24 09:17:13 | INFO     | angel_source | Bootstrapping spot prices …
+2026-02-24 09:17:14 | INFO     | angel_source | Bootstrap done: 38/38 spots resolved
+2026-02-24 09:17:14 | INFO     | angel_source | Angel WS thread started
+2026-02-24 09:17:15 | INFO     | angel_source | Angel WS connected
+2026-02-24 09:17:18 | INFO     | angel_source | Master downloaded: 212371 records
+2026-02-24 09:17:19 | INFO     | angel_source | Token maps built | eq=38/38  nfo_options=11203
+2026-02-24 09:17:19 | WARNING  | angel_source | Missing equity tokens for: ['TATAMOTORS']
+2026-02-24 09:17:19 | INFO     | angel_source | Bootstrapping spot prices …
+2026-02-24 09:17:19 | INFO     | angel_source | Bootstrap done: 38/38 spots resolved
+2026-02-24 09:17:19 | INFO     | angel_source | Angel WS thread started
+2026-02-24 09:17:41 | INFO     | angel_source | Angel WS connected
+2026-02-24 09:18:01 | INFO     | monitor | INFY ATM changed 1320 → 1280
+2026-02-24 09:18:01 | INFO     | monitor | INFY: WS resubscription triggered for new strikes ITM=1240 ATM=1280 OTM=1320
+2026-02-24 09:18:05 | INFO     | monitor | TECHM ATM changed 1440 → 1400
+2026-02-24 09:18:05 | INFO     | monitor | TECHM: WS resubscription triggered for new strikes ITM=1360 ATM=1400 OTM=1440
+2026-02-24 09:18:06 | INFO     | monitor | RELIANCE ATM changed 1450 → 1400
+2026-02-24 09:18:06 | INFO     | monitor | RELIANCE: WS resubscription triggered for new strikes ITM=1350 ATM=1400 OTM=1450
+2026-02-24 09:18:07 | INFO     | monitor | SENSEX ATM changed 82900 → 83000
+2026-02-24 09:18:07 | INFO     | monitor | SENSEX: WS resubscription triggered for new strikes ITM=82900 ATM=83000 OTM=83100
+2026-02-24 09:18:09 | INFO     | monitor | NTPC ATM changed 370 → 380
+2026-02-24 09:18:09 | INFO     | monitor | NTPC: WS resubscription triggered for new strikes ITM=370 ATM=380 OTM=390
+2026-02-24 09:18:10 | INFO     | monitor | COALINDIA ATM changed 420 → 430
+2026-02-24 09:18:10 | INFO     | monitor | COALINDIA: WS resubscription triggered for new strikes ITM=420 ATM=430 OTM=440
+2026-02-24 09:18:12 | WARNING  | angel_source | No equity token for TATAMOTORS
+2026-02-24 09:18:12 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-24 09:18:14 | INFO     | monitor | TATASTEEL ATM changed 205 → 210
+2026-02-24 09:18:14 | INFO     | monitor | TATASTEEL: WS resubscription triggered for new strikes ITM=205 ATM=210 OTM=215
+2026-02-24 09:19:50 | WARNING  | angel_source | No equity token for TATAMOTORS
+2026-02-24 09:19:50 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-24 09:21:10 | ERROR    | angel_source | OI fetch failed NIFTY 25650 PE: 403 Client Error:  for url: https://apiconnect.angelone.in/rest/secure/angelbroking/market/v1/quote/
+2026-02-24 09:21:10 | ERROR    | angel_source | OI fetch failed INDUSINDBK 920 PE: 403 Client Error:  for url: https://apiconnect.angelone.in/rest/secure/angelbroking/market/v1/quote/
+2026-02-24 09:21:23 | WARNING  | angel_source | No equity token for TATAMOTORS
+2026-02-24 09:21:23 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-24 09:22:56 | WARNING  | angel_source | No equity token for TATAMOTORS
+2026-02-24 09:22:56 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-24 09:24:30 | WARNING  | angel_source | No equity token for TATAMOTORS
+2026-02-24 09:24:30 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-24 09:26:05 | WARNING  | angel_source | No equity token for TATAMOTORS
+2026-02-24 09:26:05 | WARNING  | monitor | TATAMOTORS: invalid spot (0.00) — skipping
+2026-02-24 09:26:20 | INFO     | main | Shutdown signal (15) received — stopping …
+2026-02-24 09:26:20 | INFO     | monitor | Index OI Monitor stopping …
+2026-02-24 09:26:20 | INFO     | angel_source | AngelDataSource stopped
+2026-02-24 09:26:21 | INFO     | monitor | Stock OI Monitor stopping …
+2026-02-24 09:26:21 | INFO     | angel_source | AngelDataSource stopped

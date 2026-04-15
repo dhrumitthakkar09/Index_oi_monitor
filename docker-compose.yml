@@ -1,0 +1,48 @@
+version: "3.9"
+
+# =============================================================================
+# OI Monitor — Docker Compose
+#
+# Usage:
+#   docker-compose up -d            # start in background
+#   docker-compose logs -f          # tail live logs
+#   docker-compose down             # stop and remove container
+#   docker-compose restart          # restart without rebuild
+#   docker-compose up -d --build    # rebuild image and start
+# =============================================================================
+
+services:
+  oi-monitor:
+    build: .
+    image: oi_monitor:latest
+    container_name: oi_monitor
+    restart: unless-stopped
+
+    # ── Load all credentials from .env file ───────────────────────────────────
+    env_file:
+      - .env
+
+    # ── Persist logs and CSV data on the host machine ─────────────────────────
+    volumes:
+      - ./logs:/app/logs    # logs survive container restarts
+      - ./data:/app/data    # CSV OI history survives restarts
+
+    # ── Resource limits (optional — prevents runaway memory) ─────────────────
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+    # ── Startup delay — wait for Docker network bridge to be ready ───────────
+    # Without this, the instrument master download fails because the network
+    # interface isn't fully initialised when the container first boots.
+    # 15 seconds is enough for Docker's bridge network to come up.
+    command: >
+      sh -c "echo 'Waiting 15s for network...' && sleep 15 && python main.py"
+
+    # ── Log rotation ──────────────────────────────────────────────────────────
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "5"
