@@ -163,7 +163,7 @@ Time    : 2026-03-17 11:45:02
 
 ---
 
-### 2. Trending OI Alert
+### 2. Trending OI Alert *(Indices only — NIFTY, SENSEX, BANKNIFTY, MIDCAP SELECT)*
 
 Tracks aggregate Calls OI and Puts OI across **4 strikes fixed at the day's open price**. Fires when `DIFF = Calls OI − Puts OI` moves consistently in the same direction for N consecutive polls.
 

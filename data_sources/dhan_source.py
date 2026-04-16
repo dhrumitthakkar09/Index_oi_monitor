@@ -217,6 +217,16 @@ class DhanDataSource(BaseDataSource):
             except Exception as exc:
                 log.warning("DhanDataSource: initial OC fetch failed for %s: %s", name, exc)
 
+        # ── Prev-day close for each index (for OI pattern classification) ─────
+        # Fetched here — before stock OC calls monopolise the rate limiter —
+        # so the market feed call has a clear window to succeed.
+        log.info("DhanDataSource: fetching prev-day close for indices …")
+        for name in config.INDEX_CONFIG:
+            try:
+                self._fetch_index_prev_close(name)
+            except Exception as exc:
+                log.warning("DhanDataSource: prev-close fetch failed for %s: %s", name, exc)
+
         log.info("DhanDataSource: starting WebSocket feed …")
         self._start_ws()
 
@@ -242,7 +252,14 @@ class DhanDataSource(BaseDataSource):
             reader = csv.DictReader(io.StringIO(resp.text))
             result: Dict[str, str] = {}
             for row in reader:
-                if row.get("SEM_SEGMENT", "").strip() != _NSE_EQ:
+                # Dhan scrip master changed format: SEM_SEGMENT is now a single
+                # letter ('E' for equity) rather than 'NSE_EQ'. Match by exchange
+                # + instrument type instead, and restrict to 'EQ' series only.
+                if row.get("SEM_EXM_EXCH_ID", "").strip() != "NSE":
+                    continue
+                if row.get("SEM_INSTRUMENT_NAME", "").strip() != "EQUITY":
+                    continue
+                if row.get("SEM_SERIES", "").strip() not in ("EQ", ""):
                     continue
                 raw = row.get("SEM_TRADING_SYMBOL", "").strip().upper()
                 sym = raw.replace("-EQ", "").replace("-BE", "")
@@ -477,10 +494,14 @@ class DhanDataSource(BaseDataSource):
                         self._prev_oi_cache[key] = prev_oi
                         updated_poi += 1
 
-            # Fetch prev-day close once per instrument (for pattern classification)
-            if name not in self._prev_close_cache or self._prev_close_cache[name] <= 0:
-                if is_index:
-                    self._fetch_index_prev_close(name)
+        # Fetch prev-day close OUTSIDE the lock — _fetch_index_prev_close
+        # acquires the same lock internally to write the result, so calling it
+        # inside the lock block above would deadlock.
+        if is_index:
+            with self._cache_lock:
+                need_prev_close = name not in self._prev_close_cache or self._prev_close_cache[name] <= 0
+            if need_prev_close:
+                self._fetch_index_prev_close(name)
 
         log.info("Option Chain %s expiry=%s: spot=%.2f  OI strikes=%d  prevOI strikes=%d",
                  name, expiry_str, spot, updated_oi // 2, updated_poi // 2)

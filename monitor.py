@@ -175,15 +175,17 @@ class BaseOIMonitor:
 
     def __init__(
         self,
-        data_source:       BaseDataSource,
-        instrument_config: dict,
-        label:             str = "OI Monitor",
-        poll_interval:     Optional[int] = None,
+        data_source:        BaseDataSource,
+        instrument_config:  dict,
+        label:              str  = "OI Monitor",
+        poll_interval:      Optional[int] = None,
+        enable_trending_oi: bool = True,
     ) -> None:
         self._ds           = data_source
         self._config       = instrument_config
         self._label        = label
         self._poll_interval = poll_interval if poll_interval is not None else config.POLL_INTERVAL_SECONDS
+        self._enable_trending_oi = enable_trending_oi
 
         self._stop_event = threading.Event()
         self._states: Dict[str, InstrumentState] = {}
@@ -263,13 +265,20 @@ class BaseOIMonitor:
 
         from utils.strike_utils import get_strike_range
 
+        is_large = len(self._config) > 10
+
         def _build_requests(n_strikes):
             reqs = []
             for name, cfg in self._config.items():
                 spot  = self._ds.get_spot_price(name)
                 state = self._states.get(name)
                 if spot <= 0 or not state:
-                    log.warning("Bootstrap: no spot/state for %s (spot=%.1f) — skip", name, spot)
+                    # For large configs (stocks), no spot at startup is expected —
+                    # the first poll's batch_refresh_oi + _sync_prev_day_from_ds
+                    # handles baseline population automatically.
+                    (log.debug if is_large else log.warning)(
+                        "Bootstrap: no spot/state for %s (spot=%.1f) — skip", name, spot
+                    )
                     continue
                 step = cfg["strike_step"]
                 for strike in get_strike_range(spot, step, n=n_strikes):
@@ -279,7 +288,10 @@ class BaseOIMonitor:
 
         def _do_fetch(requests_list):
             if not requests_list:
-                log.warning("Bootstrap [%s]: no requests built — check spot prices.", self._label)
+                (log.debug if is_large else log.warning)(
+                    "Bootstrap [%s]: no requests built — spot prices not yet available "
+                    "(will be populated from first poll cycle).", self._label
+                )
                 return
             log.info("Bootstrap [%s]: fetching %d strikes from candle API…",
                      self._label, len(requests_list))
@@ -355,9 +367,15 @@ class BaseOIMonitor:
                 oi_requests: list = []
                 for name, state in self._states.items():
                     spot = self._ds.get_spot_price(name)
+                    cfg  = self._config[name]
                     if spot <= 0:
+                        # No spot yet — include a minimal request so batch_refresh_oi
+                        # triggers the option chain fetch, which will populate spot.
+                        req = (name, state.expiry, 0, "CE")
+                        if req not in seen:
+                            seen.add(req)
+                            oi_requests.append(req)
                         continue
-                    cfg     = self._config[name]
                     strikes = get_strike_set(spot, cfg["strike_step"])
                     # ATM ± 1 for spike detection
                     for strike in (strikes.itm, strikes.atm, strikes.otm):
@@ -366,8 +384,8 @@ class BaseOIMonitor:
                             if req not in seen:
                                 seen.add(req)
                                 oi_requests.append(req)
-                    # 4 open-price fixed strikes for aggregate trending
-                    if state.open_strikes:
+                    # 4 open-price fixed strikes for aggregate trending (indices only)
+                    if self._enable_trending_oi and state.open_strikes:
                         for strike in state.open_strikes:
                             for opt_type in ("CE", "PE"):
                                 req = (name, state.expiry, strike, opt_type)
@@ -378,6 +396,11 @@ class BaseOIMonitor:
                     self._ds.batch_refresh_oi(oi_requests)
                 except Exception:
                     log.exception("%s: batch OI refresh failed", self._label)
+
+                # Sync prev-day OI from DS cache for instruments that now have
+                # spot data (e.g. stocks on Dhan whose OC was just fetched above)
+                # but don't yet have a baseline in self._prev_day_oi.
+                self._sync_prev_day_from_ds()
 
             # ── Per-instrument checks ─────────────────────────────────────────
             for name in list(self._config.keys()):
@@ -397,6 +420,42 @@ class BaseOIMonitor:
                 self._save_snapshot()
 
             self._stop_event.wait(timeout=self._poll_interval)
+
+    def _sync_prev_day_from_ds(self) -> None:
+        """
+        For instruments that now have a valid spot (e.g. stocks on Dhan whose
+        option chain was just fetched) but no prev-day OI baseline in
+        self._prev_day_oi yet, pull the previous_oi values directly from the
+        data source's own cache (populated by the option chain response).
+
+        This runs after every batch_refresh_oi so the very first OC fetch for
+        each instrument automatically establishes its prev-day baseline — no
+        separate bootstrap needed.
+        """
+        if not hasattr(self._ds, "fetch_prev_day_oi_from_candles"):
+            return
+        sync_reqs = []
+        for name, state in self._states.items():
+            spot = self._ds.get_spot_price(name)
+            if spot <= 0:
+                continue
+            cfg = self._config[name]
+            for strike in get_strike_range(spot, cfg["strike_step"], n=5):
+                for opt_type in ("CE", "PE"):
+                    key = (name, state.expiry, strike, opt_type)
+                    if key not in self._prev_day_oi:
+                        sync_reqs.append(key)
+        if not sync_reqs:
+            return
+        try:
+            fetched = self._ds.fetch_prev_day_oi_from_candles(sync_reqs)
+        except Exception:
+            log.exception("_sync_prev_day_from_ds failed")
+            return
+        if fetched:
+            with _prev_day_lock:
+                self._prev_day_oi.update(fetched)
+            log.info("Synced %d prev-day OI entries from DS cache", len(fetched))
 
     def _save_snapshot(self) -> None:
         today = datetime.now(IST).strftime("%Y-%m-%d")
@@ -463,24 +522,24 @@ class BaseOIMonitor:
             for opt_type in ("CE", "PE"):
                 self._check_oi(name, state, strike, opt_type, cfg)
 
-        # ── 5. Capture open price once per day (after warm-up) ───────────────
-        if state.open_price is None and not state.warming_up:
-            step               = cfg["strike_step"]
-            atm                = round_to_step(spot, step)
-            state.open_price   = spot
-            state.open_strikes = [atm + i * step for i in range(4)]
-            log.info(
-                "%s: open price captured=%.2f  open_strikes=%s",
-                name, spot, state.open_strikes,
-            )
-            send_info(
-                f"📌 {name} open price: {spot:,.2f}\n"
-                f"Tracking 4 strikes: {' · '.join(str(s) for s in state.open_strikes)}"
-            )
+        # ── 5 & 6. Trending OI — indices only ───────────────────────────────────
+        if self._enable_trending_oi:
+            if state.open_price is None and not state.warming_up:
+                step               = cfg["strike_step"]
+                atm                = round_to_step(spot, step)
+                state.open_price   = spot
+                state.open_strikes = [atm + i * step for i in range(4)]
+                log.info(
+                    "%s: open price captured=%.2f  open_strikes=%s",
+                    name, spot, state.open_strikes,
+                )
+                send_info(
+                    f"📌 {name} open price: {spot:,.2f}\n"
+                    f"Tracking 4 strikes: {' · '.join(str(s) for s in state.open_strikes)}"
+                )
 
-        # ── 6. Aggregate trending OI across 4 open-price fixed strikes ───────
-        if state.open_strikes and not state.warming_up:
-            self._check_aggregate_trend(name, state, cfg)
+            if state.open_strikes and not state.warming_up:
+                self._check_aggregate_trend(name, state, cfg)
 
     def _check_oi(
         self,

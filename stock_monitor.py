@@ -32,4 +32,5 @@ class StockOIMonitor(BaseOIMonitor):
             instrument_config=stock_config.STOCK_CONFIG,
             label="Stock OI Monitor",
             poll_interval=config.STOCK_POLL_INTERVAL_SECONDS,
+            enable_trending_oi=False,   # Trending OI tracks aggregate index OI only
         )
