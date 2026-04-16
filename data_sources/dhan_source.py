@@ -56,11 +56,12 @@ log = setup_logger("dhan_source")
 
 IST = timezone(timedelta(hours=5, minutes=30))
 
-_BASE_URL         = "https://api.dhan.co"
-_OPTION_CHAIN_URL = f"{_BASE_URL}/v2/optionchain"
-_MARKET_FEED_URL  = f"{_BASE_URL}/v2/marketfeed/quote"
-_WS_URL           = "wss://api-feed.dhan.co"
-_EXPIRY_LIST_URL  = f"{_BASE_URL}/v2/optionchain/expirylist"
+_BASE_URL          = "https://api.dhan.co"
+_OPTION_CHAIN_URL  = f"{_BASE_URL}/v2/optionchain"
+_MARKET_FEED_URL   = f"{_BASE_URL}/v2/marketfeed/quote"
+_HISTORICAL_URL    = f"{_BASE_URL}/v2/charts/historical"
+_WS_URL            = "wss://api-feed.dhan.co"
+_EXPIRY_LIST_URL   = f"{_BASE_URL}/v2/optionchain/expirylist"
 
 # Dhan instrument master — public CSV for resolving equity security IDs
 _DHAN_SCRIP_MASTER_URL = "https://images.dhan.co/api-data/api-scrip-master.csv"
@@ -516,41 +517,41 @@ class DhanDataSource(BaseDataSource):
 
     def _fetch_index_prev_close(self, name: str) -> None:
         """
-        Fetch previous day's closing price for an index via Market Feed Quote API.
-        Logs the full raw record on first call so we can confirm the correct field name.
+        Fetch the previous trading day's closing price for an index using the
+        Dhan Historical Chart API (POST /v2/charts/historical).
+
+        The Market Feed Quote API returns empty data for IDX_I instruments.
+        The Historical Chart API reliably returns daily OHLCV and the last
+        'close' value in the response array is yesterday's closing price.
         """
         sec_id = config.INDEX_CONFIG.get(name, {}).get("dhan_security_id")
         if not sec_id:
             return
         try:
-            data    = _rest_post(_MARKET_FEED_URL, self._headers,
-                                 {"data": {_IDX_I: [str(sec_id)]}},
-                                 timeout=10)
-            records = (data.get("data") or {}).get(_IDX_I, {})
-            for sid, rec in (records or {}).items():
-                if str(sid) != str(sec_id):
-                    continue
-                # Log full record ONCE so we know all available fields
-                if name not in self._prev_close_cache:
-                    log.info("Market Feed raw record for %s: %s", name, rec)
-                # Try all known Dhan field names for previous day close
-                prev_close = float(
-                    rec.get("close") or
-                    rec.get("prev_close") or
-                    rec.get("previous_close") or
-                    rec.get("ohlc", {}).get("close") or
-                    rec.get("day_close") or
-                    0
-                )
-                if prev_close > 0:
-                    with self._cache_lock:
-                        self._prev_close_cache[name] = prev_close
-                    log.info("Prev close %s = %.2f", name, prev_close)
-                else:
-                    log.warning(
-                        "Prev close %s: field not found in response. "
-                        "Available keys: %s", name, list(rec.keys())
-                    )
+            today = datetime.now(IST).strftime("%Y-%m-%d")
+            # Go back far enough to guarantee at least one trading day
+            from_date = (datetime.now(IST).date() - timedelta(days=5)).strftime("%Y-%m-%d")
+            payload = {
+                "securityId":       str(sec_id),
+                "exchangeSegment":  _IDX_I,
+                "instrument":       "INDEX",
+                "expiryCode":       0,
+                "fromDate":         from_date,
+                "toDate":           today,
+            }
+            data = _rest_post(_HISTORICAL_URL, self._headers, payload, timeout=10)
+            closes = data.get("close") or []
+            if not closes:
+                log.warning("_fetch_index_prev_close(%s): empty response from historical API", name)
+                return
+            # Last entry is the most recent completed trading day's close
+            prev_close = float(closes[-1])
+            if prev_close > 0:
+                with self._cache_lock:
+                    self._prev_close_cache[name] = prev_close
+                log.info("Prev close %s = %.2f  (from historical chart API)", name, prev_close)
+            else:
+                log.warning("_fetch_index_prev_close(%s): close=0 in response", name)
         except Exception as exc:
             log.warning("_fetch_index_prev_close(%s): %s", name, exc)
 
