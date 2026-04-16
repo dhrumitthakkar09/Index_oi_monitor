@@ -1,112 +1,148 @@
 """
-alerts/telegram_alert.py — Telegram alert dispatcher.
+alerts/telegram_alert.py — Telegram bot dispatcher for OI Monitor.
 
-Sends formatted OI spike alerts via the Telegram Bot API.
-Retries up to 3 times on network failure.
+Alert format example:
+  🚨 Long Buildup
+  ──────────────────────────────
+  Index   : NIFTY
+  Strike  : 23750 CE
+  OI Chg  : ▲ +542.0%
+  Prev OI : 12,000
+  Curr OI : 77,040
+  Spot    : 23,712
+  Time    : 2026-03-18 10:45:02
 """
 
 from __future__ import annotations
 
-import time
-from datetime import datetime
-from typing import Optional
-
+import logging
 import requests
 
 import config
-from utils.logger import setup_logger
 
-log = setup_logger("telegram_alert")
+log = logging.getLogger("telegram_alert")
 
-TELEGRAM_API = "https://api.telegram.org/bot{token}/sendMessage"
-MAX_RETRIES  = 3
-RETRY_DELAY  = 2   # seconds between retries
+_API_BASE = "https://api.telegram.org/bot{token}/sendMessage"
 
 
-def _build_message(
-    index:       str,
-    strike:      int,
-    option_type: str,
-    oi_change:   float,
-    old_oi:      int,
-    new_oi:      int,
-    timestamp:   Optional[str] = None,
-) -> str:
-    import config
-    import stock_config
-    ts         = timestamp or datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    is_stock   = index in stock_config.STOCK_CONFIG
-    label      = "STOCK" if is_stock else "INDEX"
-    return (
-        f"🚨 *OI SPIKE ALERT — {label}*\n"
-        f"Symbol: *{index}*\n"
-        f"Strike: *{strike} {option_type}*\n"
-        f"OI Change: *{oi_change:.1f}%*\n"
-        f"Old OI: `{old_oi:,}`\n"
-        f"New OI: `{new_oi:,}`\n"
-        f"Time: `{ts}`"
-    )
+def _send(text: str, timeout: int = 5) -> bool:
+    """Send a Telegram message. Returns True on success.
+    Uses a short timeout (default 5s) so stop alerts complete before
+    Docker's stop grace period expires.
+    """
+    token   = config.TELEGRAM_BOT_TOKEN
+    chat_id = config.TELEGRAM_CHAT_ID
+    if not token or not chat_id:
+        log.debug("Telegram not configured — skipping message")
+        return False
+    try:
+        resp = requests.post(
+            _API_BASE.format(token=token),
+            json={
+                "chat_id":    chat_id,
+                "text":       text,
+                "parse_mode": "HTML",
+            },
+            timeout=timeout,
+        )
+        resp.raise_for_status()
+        return True
+    except Exception as exc:
+        log.warning("Telegram send failed: %s", exc)
+        return False
 
 
 def send_alert(
-    index:       str,
-    strike:      int,
-    option_type: str,
-    oi_change:   float,
-    old_oi:      int,
-    new_oi:      int,
-    timestamp:   Optional[str] = None,
-) -> bool:
-    """
-    Send a Telegram alert message.
+    index:             str,
+    strike:            int,
+    option_type:       str,
+    oi_change:         float,
+    crossed_threshold: int,
+    old_oi:            int,
+    new_oi:            int,
+    timestamp:         str,
+    pattern:           str = "",
+    spot:              float = 0.0,
+    prev_close:        float = 0.0,
+) -> None:
+    """Send an OI spike alert."""
+    oi_dir = "▲" if oi_change > 0 else "▼"
+    header = f"🚨 {pattern}" if pattern else "🚨 OI ALERT"
 
-    Returns True on success, False on failure.
+    text = (
+        f"{header}\n"
+        f"{'─' * 30}\n"
+        f"Index   : <b>{index}</b>\n"
+        f"Strike  : <b>{strike:,} {option_type}</b>\n"
+        f"OI Chg  : {oi_dir} <b>{oi_change:+.1f}%</b>\n"
+        f"Prev OI : {old_oi:,}\n"
+        f"Curr OI : {new_oi:,}\n"
+    )
+    if spot > 0:
+        text += f"Spot    : {spot:,.0f}\n"
+    text += f"Time    : {timestamp}"
+
+    ok = _send(text)
+    if ok:
+        log.info("Telegram alert sent: %s %d %s OI %+.1f%%  pattern=%s",
+                 index, strike, option_type, oi_change, pattern or "n/a")
+
+
+def send_aggregate_trend_alert(
+    index:        str,
+    open_price:   float,
+    open_strikes: list,       # 4 strikes fixed at open price
+    direction:    str,        # "BULLISH" or "BEARISH"
+    calls_oi:     int,
+    puts_oi:      int,
+    pcr:          float,
+    diff:         int,        # calls_oi - puts_oi
+    diff_pct:     float,      # diff as % of total OI
+    oi_history:   list,       # list of (calls_oi, puts_oi) tuples, oldest → newest
+    spot:         float = 0.0,
+    timestamp:    str   = "",
+) -> None:
     """
-    if not config.TELEGRAM_BOT_TOKEN or not config.TELEGRAM_CHAT_ID:
-        log.warning(
-            "Telegram credentials not set — alert suppressed for %s %d %s",
-            index, strike, option_type,
-        )
-        # Still log the alert locally
+    Send an aggregate trending-OI alert based on 4 open-price fixed strikes.
+    Mirrors the Trending OI Data table from the NSE OI tracker.
+    """
+    n_polls     = len(oi_history) - 1
+    arrow       = "📈" if direction == "BULLISH" else "📉"
+    dir_label   = "Rising" if direction == "BULLISH" else "Falling"
+    sentiment   = "🟢 Bullish" if direction == "BULLISH" else "🔴 Bearish"
+    strikes_str = " · ".join(f"{s:,}" for s in open_strikes)
+
+    # Diff path across history window: +85,000 → +92,000 → +1,00,000
+    diff_path = " → ".join(f"{h[0] - h[1]:+,}" for h in oi_history)
+
+    text = (
+        f"{arrow} <b>{index}</b> OI Trending {dir_label}\n"
+        f"{'─' * 30}\n"
+        f"Open Price : {open_price:,.2f}\n"
+        f"Strikes    : {strikes_str}\n"
+        f"Calls OI   : {calls_oi:,}\n"
+        f"Puts OI    : {puts_oi:,}\n"
+        f"DIFF       : {diff:+,}  ({diff_pct:+.1f}%)\n"
+        f"PCR        : {pcr:.3f}\n"
+        f"Polls      : {n_polls} consecutive {dir_label.lower()} ticks\n"
+        f"DIFF path  : {diff_path}\n"
+        f"Sentiment  : {sentiment}\n"
+    )
+    if spot > 0:
+        text += f"Spot       : {spot:,.0f}\n"
+    if timestamp:
+        text += f"Time       : {timestamp}"
+
+    ok = _send(text)
+    if ok:
         log.info(
-            "ALERT | %s | %d %s | OI change %.1f%% | old=%d new=%d",
-            index, strike, option_type, oi_change, old_oi, new_oi,
+            "Telegram agg-trend alert: %s  dir=%s  pcr=%.3f  diff=%+d (%.1f%%)",
+            index, direction, pcr, diff, diff_pct,
         )
-        return False
-
-    message = _build_message(index, strike, option_type, oi_change, old_oi, new_oi, timestamp)
-    url     = TELEGRAM_API.format(token=config.TELEGRAM_BOT_TOKEN)
-    payload = {
-        "chat_id":    config.TELEGRAM_CHAT_ID,
-        "text":       message,
-        "parse_mode": "Markdown",
-    }
-
-    for attempt in range(1, MAX_RETRIES + 1):
-        try:
-            response = requests.post(url, json=payload, timeout=10)
-            response.raise_for_status()
-            log.info(
-                "Telegram alert sent: %s %d %s OI +%.1f%%",
-                index, strike, option_type, oi_change,
-            )
-            return True
-        except requests.RequestException as exc:
-            log.error("Telegram send attempt %d/%d failed: %s", attempt, MAX_RETRIES, exc)
-            if attempt < MAX_RETRIES:
-                time.sleep(RETRY_DELAY)
-
-    log.critical("Telegram alert failed after %d attempts", MAX_RETRIES)
-    return False
 
 
-def send_info(text: str) -> None:
-    """Send a plain informational message to Telegram (startup/shutdown notices)."""
-    if not config.TELEGRAM_BOT_TOKEN or not config.TELEGRAM_CHAT_ID:
-        return
-    url     = TELEGRAM_API.format(token=config.TELEGRAM_BOT_TOKEN)
-    payload = {"chat_id": config.TELEGRAM_CHAT_ID, "text": text}
-    try:
-        requests.post(url, json=payload, timeout=10)
-    except Exception as exc:
-        log.error("Info message send failed: %s", exc)
+def send_info(message: str) -> None:
+    """Send a plain informational message (startup, shutdown, warnings)."""
+    ok = _send(message)
+    if ok:
+        log.info("Telegram info sent: %s", message[:80])

@@ -1,20 +1,13 @@
 """
 stock_monitor.py — F&O Stock OI Monitor.
 
-Extends BaseOIMonitor with stock_config.STOCK_CONFIG:
-  - Monthly expiry
-  - OI change alert threshold: ≥ 100%
-  - Monitors ATM, 1 ITM, 1 OTM for both CE and PE
+Uses stock_config.STOCK_CONFIG (monthly expiry, 100% threshold for all stocks).
+Shares the same data source instance as the index monitor.
+Runs in a background daemon thread from main.py.
 
-Usage (standalone):
-    from data_sources import get_data_source
-    from stock_monitor import StockOIMonitor
-    monitor = StockOIMonitor(get_data_source())
-    monitor.start()   # blocking
-
-Usage (threaded, alongside index monitor — see main.py):
-    t = threading.Thread(target=monitor.start, daemon=True)
-    t.start()
+Poll cycle is intentionally long (STOCK_POLL_INTERVAL_SECONDS, default 600s)
+because fetching option chains for 200+ stocks at Dhan's 3s rate limit
+takes ~620s per full cycle.
 """
 
 from __future__ import annotations
@@ -22,6 +15,7 @@ from __future__ import annotations
 from data_sources.base import BaseDataSource
 from monitor import BaseOIMonitor
 import stock_config
+import config
 
 
 class StockOIMonitor(BaseOIMonitor):
@@ -37,4 +31,5 @@ class StockOIMonitor(BaseOIMonitor):
             data_source=data_source,
             instrument_config=stock_config.STOCK_CONFIG,
             label="Stock OI Monitor",
+            poll_interval=config.STOCK_POLL_INTERVAL_SECONDS,
         )

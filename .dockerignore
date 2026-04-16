@@ -1,0 +1,33 @@
+# FIX #19: Prevent secrets and generated files from entering the Docker build context.
+# Without this file, `COPY . .` would bake .env (with real credentials),
+# log files, and CSV data into the image layer.
+
+# ── Secrets — NEVER in the image ─────────────────────────────────────────────
+.env
+_env
+
+# ── Runtime-generated dirs — mounted as volumes instead ──────────────────────
+logs/
+data/
+
+# ── Python bytecode ───────────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# ── Virtual environments ──────────────────────────────────────────────────────
+venv/
+.venv/
+env/
+
+# ── IDE / editor ─────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ── Git ───────────────────────────────────────────────────────────────────────
+.git/
+.gitignore

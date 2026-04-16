@@ -1,21 +1,24 @@
 # =============================================================================
 # OI Monitor — Python dependencies
 # Install: pip install -r requirements.txt
+#
+# Uncomment the section matching your DATA_SOURCE before building.
 # =============================================================================
 
 # ── Core (always required) ────────────────────────────────────────────────────
 python-dotenv>=1.0.0
 requests>=2.31.0
 
-# ── Yahoo Finance — Primary data source (no API key needed) ──────────────────
+# ── Yahoo Finance — uncomment if DATA_SOURCE=YAHOO ────────────────────────────
 # yfinance>=0.2.38
 # pandas>=2.0.0
 
 # ── Angel One SmartAPI — uncomment if DATA_SOURCE=ANGEL ──────────────────────
- smartapi-python>=1.3.4
- pyotp>=2.9.0
- websocket-client>=1.7.0
- logzero>=1.7.0          # undeclared dep of smartapi-python — must be installed
+# smartapi-python>=1.3.4
+# pyotp>=2.9.0
+# websocket-client>=1.7.0
+# logzero>=1.7.0          # undeclared dep of smartapi-python
 
 # ── Dhan API — uncomment if DATA_SOURCE=DHAN ─────────────────────────────────
-# dhanhq>=1.3.1
+# dhanhq>=1.3.1           # optional: Dhan's official SDK (not used directly)
+websocket-client>=1.7.0   # required for Dhan WebSocket live feed

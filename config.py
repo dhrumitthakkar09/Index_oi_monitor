@@ -30,7 +30,7 @@ TELEGRAM_CHAT_ID   = os.getenv("TELEGRAM_CHAT_ID", "")
 # ─────────────────────────────────────────────
 ANGEL_API_KEY      = os.getenv("ANGEL_API_KEY", "")
 ANGEL_CLIENT_ID    = os.getenv("ANGEL_CLIENT_ID", "")
-ANGEL_MPIN         = os.getenv("ANGEL_MPIN", "")   # 4-digit MPIN (password login is deprecated by Angel One)
+ANGEL_MPIN         = os.getenv("ANGEL_MPIN", "")
 ANGEL_TOTP_SECRET  = os.getenv("ANGEL_TOTP_SECRET", "")
 
 # ─────────────────────────────────────────────
@@ -48,14 +48,15 @@ DHAN_CLIENT_ID     = os.getenv("DHAN_CLIENT_ID", "")
 # ─────────────────────────────────────────────
 INDEX_CONFIG = {
     "NIFTY": {
-        "alert_threshold": 500,     # % OI change to trigger alert
+        "alert_threshold": 500,
         "strike_step": 50,
         "lot_size": 25,
         "expiry_type": "weekly",
         "yahoo_symbol": "^NSEI",
         "angel_symbol": "NIFTY",
-        "dhan_symbol": "NIFTY",
-        "option_prefix": "NIFTY",   # NSE option symbol prefix
+        "dhan_symbol":  "NIFTY",
+        "dhan_security_id": "13",        # Dhan security ID for NIFTY index
+        "option_prefix": "NIFTY",
     },
     "SENSEX": {
         "alert_threshold": 500,
@@ -64,27 +65,30 @@ INDEX_CONFIG = {
         "expiry_type": "weekly",
         "yahoo_symbol": "^BSESN",
         "angel_symbol": "SENSEX",
-        "dhan_symbol": "SENSEX",
+        "dhan_symbol":  "SENSEX",
+        "dhan_security_id": "51",        # Dhan security ID for SENSEX index
         "option_prefix": "SENSEX",
     },
     "BANKNIFTY": {
         "alert_threshold": 100,
         "strike_step": 100,
         "lot_size": 15,
-        "expiry_type": "monthly",   # BANKNIFTY weekly discontinued; monthly only
+        "expiry_type": "monthly",
         "yahoo_symbol": "^NSEBANK",
         "angel_symbol": "BANKNIFTY",
-        "dhan_symbol": "BANKNIFTY",
+        "dhan_symbol":  "BANKNIFTY",
+        "dhan_security_id": "25",        # Dhan security ID for BANKNIFTY index
         "option_prefix": "BANKNIFTY",
     },
     "MIDCAPSELECT": {
         "alert_threshold": 100,
         "strike_step": 25,
         "lot_size": 50,
-        "expiry_type": "monthly",   # MIDCAPSELECT weekly discontinued; monthly only
+        "expiry_type": "monthly",
         "yahoo_symbol": "NIFTY_MID_SELECT.NS",
         "angel_symbol": "MIDCPNIFTY",
-        "dhan_symbol": "MIDCPNIFTY",
+        "dhan_symbol":  "MIDCPNIFTY",
+        "dhan_security_id": "27",        # Dhan security ID for MIDCPNIFTY index
         "option_prefix": "MIDCPNIFTY",
     },
 }
@@ -103,10 +107,27 @@ CSV_ENABLED   = os.getenv("CSV_ENABLED", "true").lower() == "true"
 CSV_DIR       = os.getenv("CSV_DIR", "data")
 
 # ─────────────────────────────────────────────
+# STOCK MONITOR POLL INTERVAL
+# Stocks use a longer cycle — 200 option-chain API calls at 3s each
+# takes ~600s, so anything under 10 minutes is effectively continuous.
+# ─────────────────────────────────────────────
+STOCK_POLL_INTERVAL_SECONDS = int(os.getenv("STOCK_POLL_INTERVAL_SECONDS", "600"))
+
+# ─────────────────────────────────────────────
+# TRENDING OI DETECTION
+# TREND_CONSECUTIVE_POLLS: number of consecutive polls that must show OI
+#   moving in the same direction before a "Trending OI" alert fires.
+# TREND_MIN_OI_CHANGE_PCT: minimum % change per poll to count as a move
+#   (filters out noise / rounding artefacts).
+# ─────────────────────────────────────────────
+TREND_CONSECUTIVE_POLLS  = int(os.getenv("TREND_CONSECUTIVE_POLLS", "3"))
+TREND_MIN_OI_CHANGE_PCT  = float(os.getenv("TREND_MIN_OI_CHANGE_PCT", "0.5"))
+
+# ─────────────────────────────────────────────
 # WEBSOCKET RECONNECT
 # ─────────────────────────────────────────────
-WS_RECONNECT_DELAY    = int(os.getenv("WS_RECONNECT_DELAY", "5"))
-WS_MAX_RECONNECT_ATTEMPTS = int(os.getenv("WS_MAX_RECONNECT_ATTEMPTS", "10"))
+WS_RECONNECT_DELAY         = int(os.getenv("WS_RECONNECT_DELAY", "5"))
+WS_MAX_RECONNECT_ATTEMPTS  = int(os.getenv("WS_MAX_RECONNECT_ATTEMPTS", "10"))
 
 # ─────────────────────────────────────────────
 # MARKET HOURS (IST) — skip polling outside hours

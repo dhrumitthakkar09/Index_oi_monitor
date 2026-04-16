@@ -42,7 +42,8 @@ log = setup_logger("angel_source")
 
 # ── Endpoints ─────────────────────────────────────────────────────────────────
 _BASE_URL  = "https://apiconnect.angelone.in"
-_QUOTE_URL = f"{_BASE_URL}/rest/secure/angelbroking/market/v1/quote/"
+_QUOTE_URL   = f"{_BASE_URL}/rest/secure/angelbroking/market/v1/quote/"
+_CANDLE_URL  = f"{_BASE_URL}/rest/secure/angelbroking/historical/v1/getCandleData"
 _MASTER_URL = (
     "https://margincalculator.angelbroking.com"
     "/OpenAPI_File/files/OpenAPIScripMaster.json"
@@ -414,24 +415,73 @@ class AngelDataSource(BaseDataSource):
                         elif cfg_key not in eq_eq_rows:
                             eq_bare_rows[cfg_key] = record
 
-                # ── 2. NFO / BFO option tokens ────────────────────────────────
-                # Parse directly from symbol string — field names unreliable.
-                # NFO = NSE F&O (NIFTY, BANKNIFTY, stocks)
-                # BFO = BSE F&O (SENSEX options — confirmed from live API test)
-                # BSE = BSE cash — skip, not options
-                elif exch in ("NFO", "BFO"):
+                # ── 2a. NFO option tokens (NSE F&O) ───────────────────────────
+                # Symbol format: UNDERLYING + DDMMMYY + STRIKE + CE/PE
+                # e.g. NIFTY10MAR2624600CE, HDFCBANK30MAR26850CE
+                elif exch == "NFO":
                     m = _NFO_SYMBOL_RE.match(raw_sym)
                     if not m:
-                        continue   # futures or unrecognised — skip
+                        continue
 
                     sym_key    = m.group(1)
-                    expiry_nfo = m.group(2)
+                    expiry_nfo = m.group(2)   # e.g. "10MAR26"
                     strike_int = int(m.group(3))
                     opt_type   = m.group(4)
 
                     cfg_key = all_cfg.get(sym_key)
                     if not cfg_key:
-                        continue   # not one of our configured symbols
+                        continue
+
+                    nfo_key = (cfg_key, expiry_nfo, strike_int, opt_type)
+                    self._nfo_token_map[nfo_key] = (token, exch)
+                    nfo_count += 1
+
+                # ── 2b. BFO option tokens (BSE F&O — SENSEX only) ─────────────
+                # BFO uses a DIFFERENT symbol format: UNDERLYING + YYMM + STRIKE*100 + CE/PE
+                # e.g. SENSEX26MAR83000CE  means  SENSEX, Mar 2026, strike=83000/100=830?
+                #
+                # DO NOT parse the symbol string — the format is non-standard.
+                # Instead use the structured fields:
+                #   expiry field  → "25MAR2026"  (real settlement date, DDMMMYYYY)
+                #   strike field  → 8300000.0    (actual strike × 100, e.g. 83000×100)
+                #   symbol suffix → last 2 chars = "CE" or "PE"
+                elif exch == "BFO":
+                    # Must be an option (OPTIDX)
+                    if str(record.get("instrumenttype", "")).upper() != "OPTIDX":
+                        continue
+
+                    # CE/PE from last 2 chars of symbol
+                    opt_type = raw_sym[-2:].upper()
+                    if opt_type not in ("CE", "PE"):
+                        continue
+
+                    # Underlying: strip opt_type suffix and date/strike prefix
+                    # Easiest: look for known BFO underlyings at the start
+                    sym_key = None
+                    for candidate in all_cfg:
+                        if raw_sym.startswith(candidate):
+                            sym_key = candidate
+                            break
+                    if sym_key is None:
+                        continue
+
+                    cfg_key = all_cfg.get(sym_key)
+                    if not cfg_key:
+                        continue
+
+                    # expiry from field → e.g. "25MAR2026" → normalise to "25MAR26"
+                    raw_expiry = str(record.get("expiry", "")).strip()
+                    if not raw_expiry:
+                        continue
+                    expiry_nfo = AngelDataSource._normalise_expiry(raw_expiry)
+                    if not expiry_nfo:
+                        continue
+
+                    # strike from field → e.g. 8300000.0 → divide by 100 → 83000
+                    raw_strike = record.get("strike", 0)
+                    strike_int = int(float(raw_strike) / 100)
+                    if strike_int <= 0:
+                        continue
 
                     nfo_key = (cfg_key, expiry_nfo, strike_int, opt_type)
                     self._nfo_token_map[nfo_key] = (token, exch)
@@ -1038,6 +1088,110 @@ class AngelDataSource(BaseDataSource):
 
     def _token_to_key(self, token: str) -> Optional[Tuple]:
         return None
+
+    # ─────────────────────────────────────────────────────────────────────────
+    # Historical candle — prev-day OI bootstrap
+    # ─────────────────────────────────────────────────────────────────────────
+
+    def fetch_prev_day_oi_from_candles(
+        self,
+        requests_list: list,   # [(name, expiry, strike, opt_type), ...]
+    ) -> dict:
+        """
+        Fetch yesterday's closing OI for each (name, expiry, strike, opt_type)
+        using Angel One's historical candle API.
+
+        Angel One ONE_DAY candle response element:
+          [timestamp, open, high, low, close, volume, open_interest]
+                                                       ^^^^^^^^^^ index 6
+
+        Returns dict: { (name, expiry, strike, opt_type): prev_day_oi_int }
+
+        Called ONCE at startup when prev_day_oi.json is missing or stale.
+        """
+        from datetime import date, timedelta as td
+        import time as _time
+
+        # Find the last trading day (skip weekends; simple — no holiday check)
+        today     = date.today()
+        prev_day  = today - td(days=1)
+        while prev_day.weekday() >= 5:   # 5=Sat, 6=Sun
+            prev_day -= td(days=1)
+
+        from_dt = prev_day.strftime("%Y-%m-%d") + " 09:00"
+        to_dt   = prev_day.strftime("%Y-%m-%d") + " 15:35"
+
+        log.info("Fetching prev-day OI via candles for date=%s (%d strikes)…",
+                 prev_day, len(requests_list))
+
+        result: dict = {}
+        failed  = 0
+        success = 0
+
+        for name, expiry, strike, opt_type in requests_list:
+            expiry_nfo = AngelDataSource._normalise_expiry(expiry) or expiry
+            nfo_key    = (name, expiry_nfo, strike, opt_type)
+            entry      = self._nfo_token_map.get(nfo_key)
+            if not entry and self._nfo_token_map:
+                entry, _ = self._nearest_expiry_entry(name, expiry_nfo, strike, opt_type)
+            if not entry:
+                log.debug("Candle: no token for %s %d %s — skip", name, strike, opt_type)
+                failed += 1
+                continue
+
+            token, exch = entry
+            payload = {
+                "exchange":    exch,
+                "symboltoken": token,
+                "interval":    "ONE_DAY",
+                "fromdate":    from_dt,
+                "todate":      to_dt,
+            }
+            try:
+                resp = requests.post(
+                    _CANDLE_URL,
+                    headers=self._auth_headers(),
+                    json=payload,
+                    timeout=10,
+                )
+                resp.raise_for_status()
+                body   = resp.json()
+                candles = body.get("data") or []
+                if candles:
+                    last = candles[-1]   # last candle of the day = closing values
+                    # Candle format: [ts, open, high, low, close, volume, oi]
+                    if len(last) >= 7:
+                        oi_val = int(float(last[6]))
+                    elif len(last) >= 6:
+                        # Some older API versions omit OI — fallback unavailable
+                        oi_val = 0
+                    else:
+                        oi_val = 0
+                    if oi_val > 0:
+                        cache_key = (name, expiry, strike, opt_type)
+                        result[cache_key] = oi_val
+                        success += 1
+                    else:
+                        log.debug("Candle OI=0 for %s %d %s (candle=%s)",
+                                  name, strike, opt_type, last)
+                        failed += 1
+                else:
+                    log.debug("No candle data for %s %d %s on %s", name, strike, opt_type, prev_day)
+                    failed += 1
+            except Exception as exc:
+                log.warning("Candle fetch failed for %s %d %s: %s", name, strike, opt_type, exc)
+                failed += 1
+
+            # Periodic progress log (every 100 calls)
+            if (success + failed) % 100 == 0 and (success + failed) > 0:
+                log.info("Candle bootstrap progress: %d/%d done…", success + failed, len(requests_list))
+
+            # Rate-limit: ~10 req/s (Angel historical API allows this)
+            _time.sleep(0.1)
+
+        total = success + failed
+        log.info("Candle OI bootstrap done: %d/%d succeeded", success, total)
+        return result
 
     def subscribe(self, tokens: List[str]) -> None:
         if not self._ws or not self._connected:

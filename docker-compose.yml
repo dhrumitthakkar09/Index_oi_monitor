@@ -3,12 +3,17 @@ version: "3.9"
 # =============================================================================
 # OI Monitor — Docker Compose
 #
-# Usage:
-#   docker-compose up -d            # start in background
-#   docker-compose logs -f          # tail live logs
+# Quick reference:
+#   docker-compose up -d --build    # rebuild image and start (after code changes)
+#   docker-compose up -d            # start without rebuild
 #   docker-compose down             # stop and remove container
 #   docker-compose restart          # restart without rebuild
-#   docker-compose up -d --build    # rebuild image and start
+#   docker-compose logs -f          # tail live logs
+#   docker-compose logs -f --tail=200   # last 200 lines then follow
+#
+# First-time setup:
+#   1. Copy .env.example to .env and fill in credentials
+#   2. docker-compose up -d --build
 # =============================================================================
 
 services:
@@ -18,29 +23,69 @@ services:
     container_name: oi_monitor
     restart: unless-stopped
 
-    # ── Load all credentials from .env file ───────────────────────────────────
+    # ── Stop grace period ─────────────────────────────────────────────────────
+    # Docker default is 10s. Our shutdown sends a Telegram alert (5s timeout)
+    # then saves snapshot before exit. 30s gives ample margin.
+    stop_grace_period: 30s
+
+    # ── Timezone ──────────────────────────────────────────────────────────────
+    # Forces IST inside the container for correct market-hours detection.
+    # The Dockerfile also sets TZ=Asia/Kolkata but this env var ensures
+    # it is always correct at runtime.
+    environment:
+      - TZ=Asia/Kolkata
+
+    # ── Load credentials from .env file ───────────────────────────────────────
+    # Required variables:
+    #   DATA_SOURCE          = DHAN
+    #   DHAN_ACCESS_TOKEN    = your Dhan access token
+    #   DHAN_CLIENT_ID       = your Dhan client id
+    #   TELEGRAM_BOT_TOKEN   = your bot token
+    #   TELEGRAM_CHAT_ID     = your chat id
+    # Optional:
+    #   POLL_INTERVAL_SECONDS = 60      (default)
+    #   LOG_LEVEL             = INFO    (default)
+    #   RESPECT_MARKET_HOURS  = true    (default)
+    #   CSV_ENABLED           = true    (default)
     env_file:
       - .env
 
-    # ── Persist logs and CSV data on the host machine ─────────────────────────
+    # ── Persist logs and data on host ─────────────────────────────────────────
+    # Both directories are created automatically if they don't exist.
+    #   ./logs  — rotating log files (oi_monitor.log)
+    #   ./data  — CSV OI history snapshots
     volumes:
-      - ./logs:/app/logs    # logs survive container restarts
-      - ./data:/app/data    # CSV OI history survives restarts
+      - ./logs:/app/logs
+      - ./data:/app/data
 
-    # ── Resource limits (optional — prevents runaway memory) ─────────────────
+    # ── Resource limits ───────────────────────────────────────────────────────
+    # 512 MB is comfortable for ~200 stocks + indices.
+    # Raise to 1024M if you see OOMKilled in docker inspect.
     deploy:
       resources:
         limits:
           memory: 512M
 
-    # ── Startup delay — wait for Docker network bridge to be ready ───────────
-    # Without this, the instrument master download fails because the network
-    # interface isn't fully initialised when the container first boots.
-    # 15 seconds is enough for Docker's bridge network to come up.
+    # ── Startup delay ─────────────────────────────────────────────────────────
+    # Waits for Docker's network bridge before connecting to Angel One API.
+    # 15s is sufficient for normal Docker Desktop setups.
+    # Increase to 30 if you see "connection refused" on first boot.
     command: >
       sh -c "echo 'Waiting 15s for network...' && sleep 15 && python main.py"
 
+    # ── Health check ──────────────────────────────────────────────────────────
+    # Docker marks the container unhealthy if main.py crashes silently.
+    # restart: unless-stopped will then relaunch it automatically.
+    healthcheck:
+      test: ["CMD", "pgrep", "-f", "python main.py"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
     # ── Log rotation ──────────────────────────────────────────────────────────
+    # Keeps up to 5 × 20 MB = 100 MB of container stdout/stderr logs.
+    # The application also writes to ./logs/oi_monitor.log independently.
     logging:
       driver: "json-file"
       options:
