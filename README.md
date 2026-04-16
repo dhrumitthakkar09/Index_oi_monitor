@@ -175,27 +175,27 @@ Tracks aggregate Calls OI and Puts OI across **4 strikes fixed at the day's open
 
 **Alert format:**
 ```
-📈 NIFTY OI Trending Rising
+📉 NIFTY OI Trending — Call Writing Rising
 ──────────────────────────────
 Open Price : 24,231.30
 Strikes    : 24,200 · 24,250 · 24,300 · 24,350
 Calls OI   : 1,35,98,975
 Puts OI    : 1,35,13,695
-DIFF       : +85,280  (+0.3%)
+DIFF (C−P) : +85,280  (+0.3%)
 PCR        : 0.997
-Polls      : 3 consecutive rising ticks
+Polls      : 3 consecutive call OI rising ticks
 DIFF path  : +60,000 → +72,000 → +85,280
-Sentiment  : 🟢 Bullish
+Sentiment  : 🔴 Bearish
 Spot       : 24,231
 Time       : 2026-04-16 15:10:00
 ```
 
-**Sentiment logic:**
+**Sentiment logic (standard NSE interpretation):**
 
-| DIFF direction | Meaning                              | Sentiment |
-|----------------|--------------------------------------|-----------|
-| DIFF rising    | Calls OI growing faster than Puts OI | 🟢 Bullish |
-| DIFF falling   | Puts OI growing faster than Calls OI | 🔴 Bearish |
+| What is growing | DIFF direction | PCR      | Dominant players | Sentiment  |
+|-----------------|----------------|----------|------------------|------------|
+| Calls OI ↑      | DIFF rising    | PCR ↓    | Call writers (resistance building) | 🔴 Bearish |
+| Puts OI ↑       | DIFF falling   | PCR ↑    | Put writers (support building)     | 🟢 Bullish |
 
 The alert fires **once per direction change** — a sustained trend does not repeat. If the trend reverses, a new alert fires for the opposite direction.
 

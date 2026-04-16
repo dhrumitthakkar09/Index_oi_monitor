@@ -107,24 +107,32 @@ def send_aggregate_trend_alert(
     Mirrors the Trending OI Data table from the NSE OI tracker.
     """
     n_polls     = len(oi_history) - 1
-    arrow       = "📈" if direction == "BULLISH" else "📉"
-    dir_label   = "Rising" if direction == "BULLISH" else "Falling"
-    sentiment   = "🟢 Bullish" if direction == "BULLISH" else "🔴 Bearish"
     strikes_str = " · ".join(f"{s:,}" for s in open_strikes)
+    diff_path   = " → ".join(f"{h[0] - h[1]:+,}" for h in oi_history)
 
-    # Diff path across history window: +85,000 → +92,000 → +1,00,000
-    diff_path = " → ".join(f"{h[0] - h[1]:+,}" for h in oi_history)
+    if direction == "BULLISH":
+        # DIFF falling → Puts OI growing faster → put writing dominant → support → Bullish
+        arrow     = "📈"
+        what      = "Put Writing Rising"
+        sentiment = "🟢 Bullish"
+        poll_desc = "consecutive put OI rising ticks"
+    else:
+        # DIFF rising → Calls OI growing faster → call writing dominant → resistance → Bearish
+        arrow     = "📉"
+        what      = "Call Writing Rising"
+        sentiment = "🔴 Bearish"
+        poll_desc = "consecutive call OI rising ticks"
 
     text = (
-        f"{arrow} <b>{index}</b> OI Trending {dir_label}\n"
+        f"{arrow} <b>{index}</b> OI Trending — {what}\n"
         f"{'─' * 30}\n"
         f"Open Price : {open_price:,.2f}\n"
         f"Strikes    : {strikes_str}\n"
         f"Calls OI   : {calls_oi:,}\n"
         f"Puts OI    : {puts_oi:,}\n"
-        f"DIFF       : {diff:+,}  ({diff_pct:+.1f}%)\n"
+        f"DIFF (C−P) : {diff:+,}  ({diff_pct:+.1f}%)\n"
         f"PCR        : {pcr:.3f}\n"
-        f"Polls      : {n_polls} consecutive {dir_label.lower()} ticks\n"
+        f"Polls      : {n_polls} {poll_desc}\n"
         f"DIFF path  : {diff_path}\n"
         f"Sentiment  : {sentiment}\n"
     )

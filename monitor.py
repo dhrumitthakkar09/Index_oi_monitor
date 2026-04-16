@@ -708,7 +708,10 @@ class BaseOIMonitor:
             for i in range(1, len(diffs))
         )
 
-        trend_dir = "BULLISH" if all_up else ("BEARISH" if all_dn else None)
+        # Standard NSE interpretation:
+        #   DIFF = Calls OI − Puts OI rising  → more call writing → resistance → BEARISH
+        #   DIFF = Calls OI − Puts OI falling → more put writing  → support    → BULLISH
+        trend_dir = "BEARISH" if all_up else ("BULLISH" if all_dn else None)
 
         if trend_dir is None:
             # Trend broken — let it fire fresh next time
