@@ -653,10 +653,11 @@ class BaseOIMonitor:
     ) -> None:
         """
         Every poll: aggregate CALLS OI and PUTS OI across the 4 strikes that
-        were fixed at the day's open price.  Track DIFF = Calls − Puts over
-        TREND_CONSECUTIVE_POLLS consecutive polls.  Alert when DIFF moves
-        consistently in the same direction (BULLISH = Calls growing faster
-        than Puts; BEARISH = Puts growing faster than Calls).
+        were fixed at the day's open price.  Track whether Calls OI or Puts OI
+        is specifically rising across TREND_CONSECUTIVE_POLLS consecutive polls.
+
+          Calls OI consistently rising → Call Writing dominant → BEARISH
+          Puts  OI consistently rising → Put  Writing dominant → BULLISH
 
         Alert fires once per direction change; resets when trend breaks.
         PCR, DIFF%, and SENTIMENT are included in the Telegram message.
@@ -693,25 +694,34 @@ class BaseOIMonitor:
             return   # not enough history yet
 
         history = list(state.agg_oi_history)
-        diffs   = [h[2] for h in history]
 
-        # Noise filter: each DIFF step must shift by >= TREND_MIN_OI_CHANGE_PCT
+        # Noise filter: each per-side step must shift by >= TREND_MIN_OI_CHANGE_PCT
         # of the current total OI to avoid firing on rounding noise.
         min_abs = total_oi * (config.TREND_MIN_OI_CHANGE_PCT / 100.0)
 
-        all_up = all(
-            diffs[i] > diffs[i - 1] and (diffs[i] - diffs[i - 1]) >= min_abs
-            for i in range(1, len(diffs))
+        # Track which side is specifically trending up across all consecutive polls.
+        # This is more precise than tracking DIFF direction, which can move even
+        # when the dominant side is unchanged (e.g. calls shrinking with puts flat).
+        all_calls_up = all(
+            history[i][0] > history[i - 1][0]
+            and (history[i][0] - history[i - 1][0]) >= min_abs
+            for i in range(1, len(history))
         )
-        all_dn = all(
-            diffs[i] < diffs[i - 1] and (diffs[i - 1] - diffs[i]) >= min_abs
-            for i in range(1, len(diffs))
+        all_puts_up = all(
+            history[i][1] > history[i - 1][1]
+            and (history[i][1] - history[i - 1][1]) >= min_abs
+            for i in range(1, len(history))
         )
 
         # Standard NSE interpretation:
-        #   DIFF = Calls OI − Puts OI rising  → more call writing → resistance → BEARISH
-        #   DIFF = Calls OI − Puts OI falling → more put writing  → support    → BULLISH
-        trend_dir = "BEARISH" if all_up else ("BULLISH" if all_dn else None)
+        #   Calls OI consistently rising → Call Writing dominant → resistance → BEARISH
+        #   Puts  OI consistently rising → Put  Writing dominant → support    → BULLISH
+        if all_calls_up:
+            trend_dir = "BEARISH"
+        elif all_puts_up:
+            trend_dir = "BULLISH"
+        else:
+            trend_dir = None
 
         if trend_dir is None:
             # Trend broken — let it fire fresh next time
