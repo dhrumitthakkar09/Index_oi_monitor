@@ -110,20 +110,24 @@ def send_aggregate_trend_alert(
     strikes_str = " · ".join(f"{s:,}" for s in open_strikes)
     diff_path   = " → ".join(f"{h[0] - h[1]:+,}" for h in oi_history)
 
-    if direction == "BULLISH":
-        # DIFF falling → Puts side gaining ground relative to Calls
-        arrow     = "📈"
-        what      = "Put Writing Rising"
-        poll_desc = "consecutive DIFF falling ticks"
-    else:
-        # DIFF rising → Calls side gaining ground relative to Puts
+    # Label and sentiment based on current DIFF sign — which side currently dominates.
+    # DIFF (C−P) > 0 → Calls > Puts → Call Writing heavy → Bearish
+    # DIFF (C−P) < 0 → Puts > Calls → Put Writing heavy  → Bullish
+    if diff > 0:
         arrow     = "📉"
-        what      = "Call Writing Rising"
-        poll_desc = "consecutive DIFF rising ticks"
+        what      = "Call Writing Heavy"
+        sentiment = "🔴 Bearish"
+    else:
+        arrow     = "📈"
+        what      = "Put Writing Heavy"
+        sentiment = "🟢 Bullish"
 
-    # Sentiment based on current snapshot: which side currently dominates (NSE table logic)
-    # PCR >= 1 → Puts >= Calls → Bullish;  PCR < 1 → Calls > Puts → Bearish
-    sentiment = "🟢 Bullish" if pcr >= 1.0 else "🔴 Bearish"
+    # Poll description describes the DIFF trend direction (trigger context)
+    poll_desc = (
+        "consecutive DIFF rising ticks"
+        if direction == "BEARISH"
+        else "consecutive DIFF falling ticks"
+    )
 
     text = (
         f"{arrow} <b>{index}</b> OI Trending — {what}\n"
@@ -133,7 +137,6 @@ def send_aggregate_trend_alert(
         f"Calls OI   : {calls_oi:,}\n"
         f"Puts OI    : {puts_oi:,}\n"
         f"DIFF (C−P) : {diff:+,}  ({diff_pct:+.1f}%)\n"
-        f"PCR        : {pcr:.3f}\n"
         f"Polls      : {n_polls} {poll_desc}\n"
         f"DIFF path  : {diff_path}\n"
         f"Sentiment  : {sentiment}\n"
