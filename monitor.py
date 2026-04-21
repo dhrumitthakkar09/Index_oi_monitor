@@ -614,7 +614,7 @@ class BaseOIMonitor:
                     self._ds.get_prev_close(name)
                     if hasattr(self._ds, "get_prev_close") else 0.0
                 )
-                pattern = _classify_oi_pattern(spot, prev_close, from_prev_day_pct)
+                pattern = _classify_oi_pattern(spot, prev_close, from_prev_day_pct, opt_type)
 
                 log.warning(
                     "🚨 ALERT  %-12s %6d %s  OI vs prev-day %+.1f%%  "
@@ -790,22 +790,31 @@ def _classify_oi_pattern(
     spot:        float,
     prev_close:  float,
     oi_change:   float,   # % change vs prev-day (positive = increasing)
+    opt_type:    str = "CE",
 ) -> str:
     """
-    Classify the OI+Price combination per the standard F&O interpretation table:
+    Classify the OI+Price combination per the standard F&O interpretation table.
 
-    Price ↑  OI ↑  → Long Buildup    (bulls adding fresh longs)
-    Price ↓  OI ↓  → Long Unwinding  (longs exiting)
-    Price ↓  OI ↑  → Short Buildup   (bears adding fresh shorts)
-    Price ↑  OI ↓  → Short Covering  (shorts exiting, covering)
+    For CE (Call options):
+      Price ↑ + OI ↑ → Long Buildup   (call buyers adding longs)     Bullish
+      Price ↓ + OI ↑ → Short Buildup  (call writers adding shorts)   Bearish
+      Price ↑ + OI ↓ → Short Covering (call writers covering)        Bullish
+      Price ↓ + OI ↓ → Long Unwinding (call buyers exiting)          Bearish
 
-    Returns one of: "Long Buildup", "Long Unwinding",
-                    "Short Buildup", "Short Covering", or "" if indeterminate.
+    For PE (Put options) the price axis is flipped — a put buyer gains
+    when price falls, so "Long Buildup" in puts means price down + OI up:
+      Price ↓ + OI ↑ → Long Buildup   (put buyers adding longs)      Bearish
+      Price ↑ + OI ↑ → Short Buildup  (put writers adding shorts)    Bullish
+      Price ↓ + OI ↓ → Short Covering (put writers covering)         Bearish
+      Price ↑ + OI ↓ → Long Unwinding (put buyers exiting)           Bullish
     """
     if prev_close <= 0 or spot <= 0:
         return ""
     price_up = spot > prev_close
     oi_up    = oi_change > 0
+    # For PE the "bullish price move" is a price decline, so flip the axis.
+    if opt_type == "PE":
+        price_up = not price_up
     if price_up and oi_up:
         return "Long Buildup"
     if not price_up and not oi_up:
